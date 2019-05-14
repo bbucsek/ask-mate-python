@@ -1,2 +1,24 @@
 <!DOCTYPE html>
-csácsumy
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions | AskMate</title>
+</head>
+<body>
+    <h1>Questions</h1>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Submission time</th>
+            <th>Title</th>
+        </tr>
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.id }}</td>
+                <td>{{ question.submission_time }}</td>
+                <td>{{ question.title }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
