@@ -17,6 +17,13 @@ def route_question(question_id):
     return render_template('question.html', question=question, answers=answers)
 
 
+@app.route('/add-question', methods=['GET', 'POST'])
+def add_question():
+    question_data = []
+    id = + 1
+    return render_template('/add-question.html')
+
+
 if __name__ == '__main__':
     app.run(
         debug = True,
