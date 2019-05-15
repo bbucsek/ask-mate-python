@@ -74,3 +74,10 @@ def delete_question_and_answers_by_id(question_id):
     connection.write_csv(all_answers, ANSWERS_FILENAME, ANSWERS_HEADER)
 
 
+def delete_answer_by_id(answer_id):
+    answers = connection.read_csv(ANSWERS_FILENAME)
+    for answer in answers:
+        if answer['id'] == answer_id:
+            answers.remove(answer)
+            break
+    connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)

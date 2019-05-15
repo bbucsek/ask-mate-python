@@ -12,10 +12,11 @@
             {% endif %}
         <p>Question id: {{ question.id }} Submitted: {{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}
             Viewed: {{ question.view_number }} Voted: {{ question.vote_number }}</p>
-        <p>
-            <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">
-            <button type="submit" name="question_id" value="{{ question_id }}">Delete this question(and all the answers)</button>
-        </p>
+        <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">
+            <p>
+                <button type="submit">Delete this question(and all the answers)</button>
+            </p>
+        </form>
         <h2>Answers</h2>
         {% for answer in answers %}
             <p>{{ answer.message }}</p>
@@ -24,6 +25,13 @@
             {% endif %}
             <p>Answer id: {{ answer.id }} Submitted: {{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}
                 Voted: {{ answer.vote_number }}</p>
+            <form action="{{ url_for("delete_answer", answer_id=answer.id) }}" method="post">
+                <input type="hidden" name="question_id" value="{{ question.id }}">
+                <p>
+                    <button type="submit">Delete this answer</button>
+                </p>
+            </form>
+
         {% endfor %}
 
     </body>
