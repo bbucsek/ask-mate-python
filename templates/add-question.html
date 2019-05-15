@@ -7,11 +7,17 @@
 <body>
     <form action="/add-question" method="post">
         <h1>Ask a new question</h1>
-        <label for="title">Question:</label><br>
-        <input type="text" id="title" name="title" minlength="5" required><br>
-        <label for="message">Message:</label><br>
-        <textarea rows="5" cols="20" id="message" name="message" required></textarea><br>
-        <input type="submit" value="Ask new question">
+        <p>
+            <label for="title">Question:</label><br>
+            <input type="text" id="title" name="title" minlength="5" required>
+        </p>
+        <p>
+            <label for="message">Message:</label><br>
+            <textarea rows="5" cols="20" id="message" name="message" required></textarea>
+        </p>
+        <p>
+            <input type="submit" value="Ask new question">
+        </p>
     </form>
 </body>
 </html>
