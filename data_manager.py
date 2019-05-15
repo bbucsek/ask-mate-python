@@ -1,6 +1,7 @@
 import connection
 import util
 
+
 def get_questions():
     detailed_questions = connection.read_csv('question.csv')
     questions = []
@@ -10,7 +11,6 @@ def get_questions():
                         'title': question.get('title')}
         questions.append(new_question)
     return questions
-
 
 
 def get_answers_by_question_id(question_id):
