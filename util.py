@@ -1,5 +1,7 @@
 from datetime import datetime
 import data_manager
+from time import time
+
 
 
 def str_timestamp_to_datetime(timestamp_text):
@@ -15,3 +17,5 @@ def new_id():
             current_id = question['id']
     return int(current_id) + 1
 
+def get_current_timestamp():
+    return int(time())
