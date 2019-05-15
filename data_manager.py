@@ -23,6 +23,7 @@ def get_answers_by_question_id(question_id):
     answers_for_question = []
     for answer in all_answers:
         if answer['question_id'] == question_id:
+            answer['submission_time'] = str_timestamp_to_datetime(answer['submission_time'])
             answers_for_question.append(answer)
     return answers_for_question
 
@@ -31,5 +32,6 @@ def get_question_by_id(question_id):
     all_questions = connection.read_csv('question.csv')
     for question in all_questions:
         if question['id'] == question_id:
+            question['submission_time'] = str_timestamp_to_datetime(question['submission_time'])
             return question
 
