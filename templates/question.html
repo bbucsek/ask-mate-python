@@ -10,8 +10,8 @@
         {% if  question.image %}
         <img src="{{ question.image }}">
             {% endif %}
-        <p>Qestion id: {{ qestion.id }} Submitted: {{ question.submission_time}}
-            Viewed: {{ question.view_number }} Voted: {{ qestion.vote_number }}</p>
+        <p>Question id: {{ question.id }} Submitted: {{ question.submission_time}}
+            Viewed: {{ question.view_number }} Voted: {{ question.vote_number }}</p>
         <h2>Answers</h2>
         {% for answer in answers %}
             <p>{{ answer.message }}</p>
