@@ -1,6 +1,11 @@
 import connection
 import util
 
+QUESTIONS_FILENAME = 'question.csv'
+QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+ANSWERS_FILENAME = 'answer.csv'
+ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
+
 
 def get_questions():
     detailed_questions = connection.read_csv('question.csv')
@@ -29,6 +34,29 @@ def get_question_by_id(question_id):
         if question['id'] == question_id:
             question['submission_time'] = util.str_timestamp_to_datetime(question['submission_time'])
             return question
+
+
+def add_question(user_question):
+    questions = connection.read_csv(QUESTIONS_FILENAME)
+
+    new_question = init_question()
+    # fields from user
+    new_question['title'] = user_question['title']
+    new_question['message'] = user_question['message']
+    new_question['image'] = None
+    questions.append(new_question)
+
+    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+
+
+def init_question():
+    """Initial values for id, submission_time, view_number, vote_number"""
+    question = {}
+    question['id'] = util.new_id()
+    question['submission_time'] = util.get_current_timestamp()
+    question['view_number'] = 0
+    question['vote_number'] = 0
+    return question
 
 
 
