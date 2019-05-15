@@ -59,14 +59,13 @@ def init_question():
     return question
 
 
-def delete_question_and_answers_by_id(quxestion_id):
+def delete_question_and_answers_by_id(question_id):
     questions = connection.read_csv(QUESTIONS_FILENAME)
     all_answers = connection.read_csv(ANSWERS_FILENAME)
     for question in questions:
         if question['id'] == question_id:
-            del question
+            questions.remove(question)
             break
-
     for answer in list(all_answers):
         if answer['question_id'] == question_id:
             all_answers.remove(answer)
