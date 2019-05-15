@@ -25,6 +25,12 @@ def add_question():
     return render_template('/add-question.html')
 
 
+@app.route('/question/<question_id>/delete', methods=['GET', 'POST'])
+def delete_question(question_id):
+    if request.method == 'POST':
+        return redirect('/list')
+
+
 if __name__ == '__main__':
     app.run(
         debug = True,
