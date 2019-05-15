@@ -26,8 +26,10 @@ def add_question():
 
 
 @app.route('/question/<question_id>/delete', methods=['GET', 'POST'])
-def delete_question(question_id):
+def delete_question():
     if request.method == 'POST':
+        question_id = request.form['question_id']
+        data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
 
 

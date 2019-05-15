@@ -59,4 +59,19 @@ def init_question():
     return question
 
 
+def delete_question_and_answers_by_id(quxestion_id):
+    questions = connection.read_csv(QUESTIONS_FILENAME)
+    all_answers = connection.read_csv(ANSWERS_FILENAME)
+    for question in questions:
+        if question['id'] == question_id:
+            del question
+            break
+
+    for answer in list(all_answers):
+        if answer['question_id'] == question_id:
+            all_answers.remove(answer)
+
+    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+    connection.write_csv(all_answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+
 

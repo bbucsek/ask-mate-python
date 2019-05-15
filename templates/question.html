@@ -14,7 +14,7 @@
             Viewed: {{ question.view_number }} Voted: {{ question.vote_number }}</p>
         <p>
             <form action="/question/<question_id>/delete" method="post">
-            <button type="submit">Delete this question(and all the answers)</button>
+            <button type="submit" name="question_id" value="{{ question_id }}">Delete this question(and all the answers)</button>
         </p>
         <h2>Answers</h2>
         {% for answer in answers %}
