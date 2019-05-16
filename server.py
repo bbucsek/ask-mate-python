@@ -41,6 +41,15 @@ def delete_answer(answer_id):
         return redirect(url_for('route_question', question_id=question_id))
 
 
+@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+def new_answer():
+    if request.method == 'POST':
+        data.manager.add_answer(dict(request.form))
+        return redirect('/list')
+    return render_template('/new-answer.html')
+
+
+
 if __name__ == '__main__':
     app.run(
         debug = True,
