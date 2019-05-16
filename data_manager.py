@@ -52,7 +52,7 @@ def add_question(user_question):
 def init_question():
     """Initial values for id, submission_time, view_number, vote_number"""
     question = {}
-    question['id'] = util.new_id()
+    question['id'] = new_id()
     question['submission_time'] = util.get_current_timestamp()
     question['view_number'] = 0
     question['vote_number'] = 0
@@ -64,7 +64,7 @@ def add_answer(user_answer):
 
     new_answer = {}
     # 'id', 'submission_time', 'vote_number'
-    new_answer['id'] = new_answer_id()
+    new_answer['id'] = new_id(QUESTIONS_FILENAME)
     new_answer['submission_time'] = util.get_current_timestamp()
     new_answer['vote_number'] = 0
     # fields from user: 'question_id', 'message', 'image'
@@ -100,7 +100,7 @@ def delete_answer_by_id(answer_id):
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
 
 
-def new_answer_id():  # todo question too
-    answers = connection.read_csv(ANSWERS_FILENAME)
-    max_id = max(int(answer['id']) for answer in answers)    # generator expr.
+def new_id(filename):
+    items = connection.read_csv(filename)
+    max_id = max(int(item['id']) for item in items)    # generator expr.
     return max_id + 1
