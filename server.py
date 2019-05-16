@@ -53,9 +53,10 @@ def new_answer(question_id):
     return render_template('/new-answer.html', question=question, answers=answers)
 
 
-@app.route('/question/<question_id>/edit', methods=['POST'])
+@app.route('/question/<question_id>/edit', methods=['GET','POST'])
 def edit_question(question_id):
-    pass
+    question = data_manager.get_question_by_id(question_id)
+    return render_template('/edit.html', question_id=question_id, question=question)
 
 
 if __name__ == '__main__':
