@@ -40,38 +40,23 @@ def get_question_by_id(question_id):
 def add_question(user_question):
     questions = connection.read_csv(QUESTIONS_FILENAME)
 
-    new_question = init_question()
-    # fields from user
-    new_question['title'] = user_question['title']
-    new_question['message'] = user_question['message']
-    new_question['image'] = user_question['image']
+    new_question = user_question
+    new_question['id'] = new_id(QUESTIONS_FILENAME)
+    new_question['submission_time'] = util.get_current_timestamp()
+    new_question['view_number'] = 0
+    new_question['vote_number'] = 0
+
     questions.append(new_question)
-
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
-
-
-def init_question():    #TODO inline
-    """Initial values for id, submission_time, view_number, vote_number"""
-    question = {}
-    question['id'] = new_id(QUESTIONS_FILENAME)
-    question['submission_time'] = util.get_current_timestamp()
-    question['view_number'] = 0
-    question['vote_number'] = 0
-    return question
 
 
 def add_answer(user_answer):
     answers = connection.read_csv(ANSWERS_FILENAME)
 
-    new_answer = {}
-    # 'id', 'submission_time', 'vote_number'
+    new_answer = user_answer
     new_answer['id'] = new_id(ANSWERS_FILENAME)
     new_answer['submission_time'] = util.get_current_timestamp()
     new_answer['vote_number'] = 0
-    # fields from user: 'question_id', 'message', 'image'
-    new_answer['question_id'] = user_answer['question_id']
-    new_answer['message'] = user_answer['message']
-    new_answer['image'] = user_answer['image']
 
     answers.append(new_answer)
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
@@ -114,7 +99,7 @@ def delete_image(image):
 
 def new_id(filename):
     items = connection.read_csv(filename)
-    max_id = max(int(item['id']) for item in items)    # generator expr.
+    max_id = max(int(item['id']) for item in items)    # generator expr. -> one iteration
     return max_id + 1
 
 

@@ -32,7 +32,7 @@ def add_question():
         data_manager.add_question(new_question)
         return redirect('/list')
     questions = data_manager.get_questions()
-    return render_template('/add-question.html',questions=questions )
+    return render_template('/add-question.html', questions=questions)
 
 
 def save_file(file_to_upload):
@@ -73,7 +73,7 @@ def new_answer(question_id):
     return render_template('/new-answer.html', question=question, answers=answers)
 
 
-@app.route('/question/<question_id>/edit', methods=['GET','POST'])
+@app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     if request.method == 'POST':
         question_id = request.form['id']
@@ -85,6 +85,6 @@ def edit_question(question_id):
 
 if __name__ == '__main__':
     app.run(
-        debug = True,
-        port = 5000
+        debug=True,
+        port=5000
     )
