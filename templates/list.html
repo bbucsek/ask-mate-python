@@ -37,8 +37,10 @@ tr:nth-child(even) {
             </tr>
         {% endfor %}
     </table>
+    {% block add %}
     <p>
        <a href ="/add-question"><button type = button>Ask a question</button></a>
     </p>
+    {% endblock %}
 </body>
 </html>

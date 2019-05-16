@@ -36,7 +36,8 @@ def add_question():
         new_question['image'] = str(filepath)[1:]
         data_manager.add_question(new_question)
         return redirect('/list')
-    return render_template('/add-question.html')
+    questions = data_manager.get_questions()
+    return render_template('/add-question.html',questions=questions )
 
 
 @app.route('/question/<question_id>/delete', methods=['POST'])

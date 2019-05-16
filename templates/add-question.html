@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ask a question</title>
-</head>
-<body>
+{% extends "list.html" %}
+{% block add %}
     <form action="/add-question" method="post" enctype="multipart/form-data">
         <h1>Ask a new question</h1>
         <p>
@@ -23,5 +18,4 @@
             <input type="submit" value="Ask new question">
         </p>
     </form>
-</body>
-</html>
+{% endblock %}
