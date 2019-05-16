@@ -1,0 +1,1 @@
+Directory for User-uploaded images.
