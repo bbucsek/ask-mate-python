@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit a question</title>
-</head>
-<body>
+{% extends "question.html" %}
+{% block answer %}
     <form action="/question/<question_id>/edit" method="post">
         <h1>Edit question</h1>
         <p>
@@ -13,12 +8,11 @@
         </p>
         <p>
             <label for="message">Message:</label><br>
-            <textarea rows="5" cols="20" id="message" name="message" required>{{ question.message }}</textarea>
+            <textarea rows="20" cols="50" id="message" name="message" required>{{ question.message }}</textarea>
         </p>
         <p>
             <input type="submit" value="Edit question">
             <input type="hidden" name="id" value="{{ question.id }}"
         </p>
     </form>
-</body>
-</html>
+{% endblock %}

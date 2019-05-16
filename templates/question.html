@@ -21,14 +21,11 @@ tr:nth-child(even) {
 }
 </style>
     </head>
-    <a>
-        <h1>{{ question.title }}</h1>
-        <p> {{ question.message }}</p>
     <body>
         <h1 style="text-align: center">{{ question.title }}</h1>
         <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
         {% if  question.image %}
-            <img src="{{ question.image }}">
+            <img src="{{ question.image }}" alt="Upload your image!">
         {% endif %}
         <p>Question id: {{ question.id }} Submitted: {{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}
             Viewed: {{ question.view_number }} Voted: {{ question.vote_number }}</p>
@@ -48,11 +45,6 @@ tr:nth-child(even) {
                 <td>{{ question.vote_number }}</td>
             </tr>
         </table>
-        <form action="{{ url_for("edit_question", question_id=question.id) }}" method="post">
-            <p>
-                <button type="submit">Edit this question</button>
-            </p>
-        </form>
         <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">
             <p>
                 <button type="submit">Delete this question(and all the answers)</button>
@@ -83,11 +75,8 @@ tr:nth-child(even) {
                     <button type="submit">Delete this answer</button>
                 </p>
             </form>
-
-
         {% endfor %}
             <a href="/question/{{ question.id }}/new-answer"><button type="button">Answer this question</button></a>
         {% endblock %}
-
     </body>
 </html>
