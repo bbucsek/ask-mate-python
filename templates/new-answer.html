@@ -2,8 +2,8 @@
 {% block answer %}
     <h1>New answer</h1>
     <form action="/question/<question_id>/new-answer" method=POST >
-    <label for="message">Answer:</label>
-    <textarea rows="50" cols="80" id="message" name="message" required></textarea>
+    <label for="message">Answer:</label><br>
+    <textarea rows="20" cols="80" id="message" name="message" required></textarea>
     <input type="hidden" id="question_id" name="question_id" value="{{ question.id }}">
     <button type="submit">Post your answer</button>
     </form>
