@@ -25,7 +25,7 @@ tr:nth-child(even) {
         <h1 style="text-align: center">{{ question.title }}</h1>
         <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
         {% if  question.image %}
-            <img src="{{ question.image }}" alt="Image for question">
+            <img src="{{ question.image }}" max-width="100%" height=auto>
         {% endif %}
         <a href="{{ url_for("edit_question", question_id=question.id) }}"><button type="button">Edit question</button></a>
 
