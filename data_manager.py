@@ -1,5 +1,6 @@
 import connection
 import util
+from werkzeug import secure_filename
 
 QUESTIONS_FILENAME = 'question.csv'
 QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -43,7 +44,7 @@ def add_question(user_question):
     # fields from user
     new_question['title'] = user_question['title']
     new_question['message'] = user_question['message']
-    new_question['image'] = None
+    new_question['image'] = user_question['image']
     questions.append(new_question)
 
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)

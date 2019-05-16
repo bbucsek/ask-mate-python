@@ -5,7 +5,7 @@
     <title>Ask a question</title>
 </head>
 <body>
-    <form action="/add-question" method="post">
+    <form action="/add-question" method="post" enctype="multipart/form-data">
         <h1>Ask a new question</h1>
         <p>
             <label for="title">Question:</label><br>
@@ -14,6 +14,10 @@
         <p>
             <label for="message">Message:</label><br>
             <textarea rows="5" cols="20" id="message" name="message" required></textarea>
+        </p>
+        <p>
+            <label for="image">Upload image:</label>
+            <input type=file id="image" name=image_file>
         </p>
         <p>
             <input type="submit" value="Ask new question">
