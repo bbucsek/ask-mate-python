@@ -26,23 +26,30 @@ def route_question(question_id):
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     if request.method == 'POST':
-        # file upload
-        f = request.files['image_file']
-        filename = secure_filename(f.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        f.save(filepath)
-        # form data
         new_question = dict(request.form)
-        new_question['image'] = str(filepath)[1:]
+        file_to_upload = request.files['image_file']
+        new_question['image'] = save_file(file_to_upload)
         data_manager.add_question(new_question)
         return redirect('/list')
     questions = data_manager.get_questions()
     return render_template('/add-question.html',questions=questions )
 
 
+def save_file(file_to_upload):
+    if not file_to_upload:
+        return ''
+    filename = secure_filename(file_to_upload.filename)
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file_to_upload.save(filepath)
+    return str(filepath)[1:]
+
+
 @app.route('/question/<question_id>/delete', methods=['POST'])
 def delete_question(question_id):
     if request.method == 'POST':
+        question_image = data_manager.get_question_by_id(question_id)['image']
+        if question_image:
+            os.remove('.' + question_image)
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
 
