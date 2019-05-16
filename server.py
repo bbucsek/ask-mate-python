@@ -47,7 +47,8 @@ def new_answer(question_id):
         data_manager.add_answer(dict(request.form), question_id)
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
-    return render_template('/new-answer.html', question=question)
+    answers = data_manager.get_answers_by_question_id(question_id)
+    return render_template('/new-answer.html', question=question, answers=answers)
 
 
 

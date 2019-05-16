@@ -8,8 +8,8 @@
         <h1>{{ question.title }}</h1>
         <p> {{ question.message }}</p>
         {% if  question.image %}
-        <img src="{{ question.image }}">
-            {% endif %}
+            <img src="{{ question.image }}">
+        {% endif %}
         <p>Question id: {{ question.id }} Submitted: {{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}
             Viewed: {{ question.view_number }} Voted: {{ question.vote_number }}</p>
         <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">

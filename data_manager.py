@@ -68,7 +68,7 @@ def add_answer(user_answer, question_id):
     new_answer['submission_time'] = util.get_current_timestamp()
     new_answer['vote_number'] = 0
     # fields from user: 'question_id', 'message', 'image'
-    new_answer['question_id'] = user_answer['question_id']
+    new_answer['question_id'] = question_id
     new_answer['message'] = user_answer['message']
     new_answer['image'] = None
 
