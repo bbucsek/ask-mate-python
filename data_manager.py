@@ -100,7 +100,7 @@ def delete_answer_by_id(answer_id):
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
 
 
-def new_answer_id(): # todo question too
+def new_answer_id():  # todo question too
     answers = connection.read_csv(ANSWERS_FILENAME)
-    max_id = max(answer['id'] for answer in answers)    # generator expr.
+    max_id = max(int(answer['id']) for answer in answers)    # generator expr.
     return max_id + 1
