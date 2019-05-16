@@ -104,3 +104,11 @@ def new_answer_id():  # todo question too
     answers = connection.read_csv(ANSWERS_FILENAME)
     max_id = max(int(answer['id']) for answer in answers)    # generator expr.
     return max_id + 1
+
+
+def edit_question(question_id, edited_question):
+    questions = connection.read_csv(QUESTIONS_FILENAME)
+    for question in questions:
+        if question['id'] == question_id:
+            question.update(edited_question)
+    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)

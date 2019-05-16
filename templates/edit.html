@@ -5,7 +5,7 @@
     <title>Edit a question</title>
 </head>
 <body>
-    <form action="/add-question" method="post">
+    <form action="/question/<question_id>/edit" method="post">
         <h1>Edit question</h1>
         <p>
             <label for="title">Question:</label><br>
@@ -17,6 +17,7 @@
         </p>
         <p>
             <input type="submit" value="Edit question">
+            <input type="hidden" name="id" value="{{ question.id }}"
         </p>
     </form>
 </body>
