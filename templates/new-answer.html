@@ -1,10 +1,12 @@
 {% extends "question.html" %}
 {% block answer %}
     <h1>New answer</h1>
-    <form action="/question/<question_id>/new-answer" method=POST style="align-self: center">
+    <form action="/question/<question_id>/new-answer" method=POST style="align-self: center" enctype="multipart/form-data">
     <label for="message">Answer:</label><br>
     <textarea rows="20" cols="50" id="message" name="message" required></textarea><br>
-    <input type="hidden" id="question_id" name="question_id" value="{{ question.id }}">
+    <input type="hidden" id="question_id" name="question_id" value="{{ question.id }}"><br>
+    <label for="upload-image">Upload image:</label><br>
+    <input type=file id="upload-image" name=image_file>
     <button type="submit">Post your answer</button>
     </form>
 {% endblock %}

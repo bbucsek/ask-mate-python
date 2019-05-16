@@ -1,6 +1,6 @@
 import connection
 import util
-from werkzeug import secure_filename
+import os
 
 QUESTIONS_FILENAME = 'question.csv'
 QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -50,7 +50,7 @@ def add_question(user_question):
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
 
 
-def init_question():
+def init_question():    #TODO inline
     """Initial values for id, submission_time, view_number, vote_number"""
     question = {}
     question['id'] = new_id(QUESTIONS_FILENAME)
@@ -71,7 +71,7 @@ def add_answer(user_answer):
     # fields from user: 'question_id', 'message', 'image'
     new_answer['question_id'] = user_answer['question_id']
     new_answer['message'] = user_answer['message']
-    new_answer['image'] = None
+    new_answer['image'] = user_answer['image']
 
     answers.append(new_answer)
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
@@ -80,12 +80,17 @@ def add_answer(user_answer):
 def delete_question_and_answers_by_id(question_id):
     questions = connection.read_csv(QUESTIONS_FILENAME)
     all_answers = connection.read_csv(ANSWERS_FILENAME)
+
+    question_image = get_question_by_id(question_id)['image']
+    delete_image(question_image)
+
     for question in questions:
         if question['id'] == question_id:
             questions.remove(question)
             break
     for answer in list(all_answers):
         if answer['question_id'] == question_id:
+            delete_image(answer['image'])
             all_answers.remove(answer)
 
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
@@ -96,9 +101,15 @@ def delete_answer_by_id(answer_id):
     answers = connection.read_csv(ANSWERS_FILENAME)
     for answer in answers:
         if answer['id'] == answer_id:
+            delete_image(answer['image'])
             answers.remove(answer)
             break
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+
+
+def delete_image(image):
+    if image:
+        os.remove('.' + image)
 
 
 def new_id(filename):

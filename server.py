@@ -47,9 +47,6 @@ def save_file(file_to_upload):
 @app.route('/question/<question_id>/delete', methods=['POST'])
 def delete_question(question_id):
     if request.method == 'POST':
-        question_image = data_manager.get_question_by_id(question_id)['image']
-        if question_image:
-            os.remove('.' + question_image)
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
 
@@ -65,7 +62,10 @@ def delete_answer(answer_id):
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def new_answer(question_id):
     if request.method == 'POST':
-        data_manager.add_answer(dict(request.form))
+        file_to_upload = request.files['image_file']
+        answer_to_add = dict(request.form)
+        answer_to_add['image'] = save_file(file_to_upload)
+        data_manager.add_answer(answer_to_add)
         question_id = request.form['question_id']
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
