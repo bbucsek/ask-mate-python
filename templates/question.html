@@ -22,7 +22,7 @@ tr:nth-child(even) {
 </style>
     </head>
     <body>
-        <h1>{{ question.title }}</h1>
+        <h1 style="text-align: center">{{ question.title }}</h1>
         <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
         {% if  question.image %}
             <img src="{{ question.image }}">
@@ -54,12 +54,22 @@ tr:nth-child(even) {
         {% block answer %}
         <h2>Answers</h2>
         {% for answer in answers %}
-            <p>{{ answer.message }}</p>
+              <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
             {% if  answer.image %}
                  <img src="{{ answer.image }}">
             {% endif %}
-            <p>Answer id: {{ answer.id }} Submitted: {{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}
-                Voted: {{ answer.vote_number }}</p>
+            <table>
+            <tr>
+                <th>Answer id</th>
+                <th>Submitted</th>
+                <th>Voted</th>
+            </tr>
+            <tr>
+                <td>{{ answer.id  }}</td>
+                <td>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ answer.vote_number }}</td>
+            </tr>
+        </table>
             <form action="{{ url_for("delete_answer", answer_id=answer.id) }}" method="post">
                 <input type="hidden" name="question_id" value="{{ question.id }}">
                 <p>
