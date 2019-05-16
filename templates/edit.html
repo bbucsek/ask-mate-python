@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit a question</title>
+</head>
+<body>
+    <form action="/add-question" method="post">
+        <h1>Edit question</h1>
+        <p>
+            <label for="title">Question:</label><br>
+            <input type="text" id="title" name="title" minlength="5" value="{{ question.title}}" required>
+        </p>
+        <p>
+            <label for="message">Message:</label><br>
+            <textarea rows="5" cols="20" id="message" name="message" required>{{ question.message }}</textarea>
+        </p>
+        <p>
+            <input type="submit" value="Edit question">
+        </p>
+    </form>
+</body>
+</html>
