@@ -52,7 +52,7 @@ def add_question(user_question):
 def init_question():
     """Initial values for id, submission_time, view_number, vote_number"""
     question = {}
-    question['id'] = new_id()
+    question['id'] = new_id(QUESTIONS_FILENAME)
     question['submission_time'] = util.get_current_timestamp()
     question['view_number'] = 0
     question['vote_number'] = 0
@@ -64,7 +64,7 @@ def add_answer(user_answer):
 
     new_answer = {}
     # 'id', 'submission_time', 'vote_number'
-    new_answer['id'] = new_id(QUESTIONS_FILENAME)
+    new_answer['id'] = new_id(ANSWERS_FILENAME)
     new_answer['submission_time'] = util.get_current_timestamp()
     new_answer['vote_number'] = 0
     # fields from user: 'question_id', 'message', 'image'
