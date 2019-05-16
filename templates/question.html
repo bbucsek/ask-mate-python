@@ -17,6 +17,7 @@
                 <button type="submit">Delete this question(and all the answers)</button>
             </p>
         </form>
+        {% block answer %}
         <h2>Answers</h2>
         {% for answer in answers %}
             <p>{{ answer.message }}</p>
@@ -32,7 +33,10 @@
                 </p>
             </form>
 
+
         {% endfor %}
+            <a href="/question/{{ question.id }}/new-answer"><button type="button">Answer this question</button></a>
+        {% endblock %}
 
     </body>
 </html>
