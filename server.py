@@ -53,6 +53,10 @@ def new_answer(question_id):
     return render_template('/new-answer.html', question=question, answers=answers)
 
 
+@app.route('/question/<question_id>/edit', methods=['POST'])
+def edit_question(question_id):
+    pass
+
 
 if __name__ == '__main__':
     app.run(
