@@ -67,6 +67,10 @@ def new_answer(question_id):
 
 @app.route('/question/<question_id>/edit', methods=['GET','POST'])
 def edit_question(question_id):
+    if request.method == 'POST':
+        question_id = request.form['id']
+        data_manager.edit_question(question_id, dict(request.form))
+        return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
     return render_template('/edit.html', question_id=question_id, question=question)
 
