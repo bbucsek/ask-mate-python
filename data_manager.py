@@ -70,7 +70,7 @@ def add_answer(user_answer, question_id):
     # fields from user: 'question_id', 'message', 'image'
     new_answer['question_id'] = user_answer['question_id']
     new_answer['message'] = user_answer['message']
-    new_answer['image'] = user_answer['image']
+    new_answer['image'] = None
 
     answers.append(new_answer)
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
