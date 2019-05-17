@@ -25,11 +25,21 @@ tr:nth-child(even) {
     <h1>Questions</h1>
     <table>
         <tr>
-            <th>Id</th>
-            <th>Submission time</th>
-            <th>Title</th>
+            {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
+                <th>
+                    {{ header_text }}
+                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='asc') }}">
+                        <button>v</button>
+                    </a>
+                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='desc') }}">
+                        <button>^</button>
+                    </a>
+                </th>
+            {% endfor %}
         </tr>
-        {% for question in questions|sort(reverse=True, attribute='submission_time') %}
+        {% set is_reverse = (order_direction == 'desc') if order_direction else True %}
+        {% set sort_attribute = order_key if order_key else 'submission_time' %}
+        {% for question in questions|sort(reverse=is_reverse, attribute=sort_attribute) %}
             <tr>
                 <td>{{ question.id }}</td>
                 <td>{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>

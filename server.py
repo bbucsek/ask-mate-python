@@ -16,6 +16,12 @@ def route_list():
     return render_template('list.html', questions=questions)
 
 
+@app.route('/list?order_by=<order_key>&order_direction=<order_direction>')
+def route_list_ordered(order_key, order_direction):
+    questions = data_manager.get_questions()
+    return render_template('list.html', questions=questions, order_key=order_key, order_direction=order_direction)
+
+
 @app.route('/question/<question_id>')
 def route_question(question_id):
     question = data_manager.get_question_by_id(question_id)
