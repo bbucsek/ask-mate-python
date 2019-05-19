@@ -25,7 +25,7 @@ tr:nth-child(even) {
         <h1 style="text-align: center">{{ question.title }}</h1>
         <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
         {% if  question.image %}
-            <img src="{{ question.image }}"  height='500' alt="Image for question">
+            <img src="{{ question.image }}" max-width="100%" height=auto alt="Image for question">
         {% endif %}
         <a href="{{ url_for("edit_question", question_id=question.id) }}"><button type="button">Edit question</button></a>
 
@@ -34,12 +34,7 @@ tr:nth-child(even) {
                 <th>Question id</th>
                 <th>Submitted</th>
                 <th>Viewed</th>
-                <th>Voted
-                    <a href="/question/{{ question.id }}/vote-up">
-                        <button>Vote up</button></a>
-                    <a href="/question/{{ question.id }}/vote-up">
-                        <button>Vote down</button></a>
-                </th>
+                <th>Voted</th>
             </tr>
             <tr>
                 <td>{{ question.id  }}</td>
@@ -58,18 +53,13 @@ tr:nth-child(even) {
         {% for answer in answers %}
               <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
             {% if  answer.image %}
-                 <img src="{{ answer.image }}" height=500 alt="Image for answer">
+                 <img src="{{ answer.image }}" max-width="100%" height=auto alt="Image for answer">
             {% endif %}
             <table>
             <tr>
                 <th>Answer id</th>
                 <th>Submitted</th>
-                <th>Voted
-                    <a href="/question/{{ answer.id }}/vote-up">
-                        <button>Vote up</button></a>
-                    <a href="/question/{{ answer.id }}/vote-down">
-                        <button>Vote down</button></a>
-                </th>
+                <th>Voted</th>
             </tr>
             <tr>
                 <td>{{ answer.id  }}</td>
