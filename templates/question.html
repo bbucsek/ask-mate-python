@@ -63,8 +63,8 @@ tr:nth-child(even) {
                 <th>Answer id</th>
                 <th>Submitted</th>
                 <th>Voted
-                    <button>Vote up</button>
-                    <button>Vote down</button>
+                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-up') }}"><button>Vote up</button></a>
+                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-down') }}"><button>Vote down</button></a>
                 </th>
             </tr>
             <tr>

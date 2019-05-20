@@ -91,7 +91,16 @@ def edit_question(question_id):
 
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
-    
+    data_manager.vote_question(question_id, vote)
+    return redirect(url_for('route_question', question_id=question_id))
+
+
+@app.route('/question/<answer_id>/<vote>')
+def vote_answer(answer_id, vote):
+    data_manager.vote_answer(answer_id, vote)
+    questions = data_manager.get_questions()
+    return render_template('list.html', questions=questions)
+
 
 if __name__ == '__main__':
     app.run(

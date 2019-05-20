@@ -109,3 +109,29 @@ def edit_question(question_id, edited_question):
         if question['id'] == question_id:
             question.update(edited_question)
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+
+
+def vote_question(question_id, vote):
+    questions = connection.read_csv(QUESTIONS_FILENAME)
+    if vote == 'vote-up':
+        for question in questions:
+            if question['id'] == question_id:
+                question['vote_number'] = int(question['vote_number']) + 1
+    else:
+        for question in questions:
+            if question['id'] == question_id:
+                question['vote_number'] = int(question['vote_number']) - 1
+    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+
+
+def vote_answer(answer_id, vote):
+    answers = connection.read_csv(ANSWERS_FILENAME)
+    if vote == 'vote-up':
+        for answer in answers:
+            if answer['id'] == answer_id:
+                answer['vote_number'] = int(answer['vote_number']) + 1
+    else:
+        for answer in answers:
+            if answer['id'] == answer_id:
+                answer['vote_number'] = int(answer['vote_number']) - 1
+    connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
