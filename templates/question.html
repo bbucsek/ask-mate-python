@@ -34,7 +34,10 @@ tr:nth-child(even) {
                 <th>Question id</th>
                 <th>Submitted</th>
                 <th>Viewed</th>
-                <th>Voted</th>
+                <th>Voted
+                    <a href="/question/{{ question.id }}/vote-up"><button>Vote up</button></a>
+                    <a href="/question/{{ question.id }}/vote-down"><button>Vote down</button></a>
+                </th>
             </tr>
             <tr>
                 <td>{{ question.id  }}</td>
@@ -59,7 +62,10 @@ tr:nth-child(even) {
             <tr>
                 <th>Answer id</th>
                 <th>Submitted</th>
-                <th>Voted</th>
+                <th>Voted
+                    <button>Vote up</button>
+                    <button>Vote down</button>
+                </th>
             </tr>
             <tr>
                 <td>{{ answer.id  }}</td>

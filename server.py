@@ -89,6 +89,10 @@ def edit_question(question_id):
     return render_template('/edit.html', question_id=question_id, question=question)
 
 
+@app.route('/question/<question_id>/<vote>')
+def vote_question(question_id, vote):
+    
+
 if __name__ == '__main__':
     app.run(
         debug=True,
