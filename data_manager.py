@@ -14,15 +14,6 @@ def get_questions(cursor):
 
 
 @connection.connection_handler
-def get_all_mentor_names(cursor):
-    cursor.execute("""
-                    SELECT first_name, last_name FROM mentors ORDER BY last_name;
-                    """)
-    full_names = cursor.fetchall()
-    return full_names
-
-
-@connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
@@ -44,6 +35,16 @@ QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'titl
 ANSWERS_FILENAME = 'answer.csv'
 ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
+
+
+@connection.connection_handler
+def get_answers_by_question_id(cursor, question_id_to_search):
+    cursor.execute("""
+                    SELECT * from answer
+                    WHERE question_id=question_id_to_search;
+                    """)
+    answers = cursor.fetchall()
+    return answers
 
 
 def get_answers_by_question_id(question_id):
