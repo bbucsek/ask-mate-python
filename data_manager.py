@@ -14,6 +14,7 @@ def get_questions(cursor):
     return questions
 
 
+
 @connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
@@ -122,18 +123,23 @@ def edit_question(question_id, edited_question):
             question.update(edited_question)
     connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
 
-
-def vote_question(question_id, vote):
-    questions = connection.read_csv(QUESTIONS_FILENAME)
+@connection.connection_handler
+def vote_question(cursor, question_id, vote):
     if vote == 'vote-up':
-        for question in questions:
-            if question['id'] == question_id:
-                question['vote_number'] = int(question['vote_number']) + 1
-    else:
-        for question in questions:
-            if question['id'] == question_id:
-                question['vote_number'] = int(question['vote_number']) - 1
-    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+        cursor.execute("""
+                    UPDATE question 
+                    SET vote_number = vote_number + 1
+                    WHERE id = %(question_id)s 
+                    """,
+                    {'question_id': question_id})
+    elif vote == 'vote-down':
+        cursor.execute("""
+                    UPDATE question 
+                    SET vote_number = vote_number - 1
+                    WHERE id = %(question_id)s 
+                    """,
+                    {'question_id': question_id})
+
 
 
 def vote_answer(answer_id, vote):
