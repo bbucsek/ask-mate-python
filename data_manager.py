@@ -62,17 +62,15 @@ def add_question(cursor, user_question):
                     VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s );
     """, user_question)
 
-
-def add_answer(user_answer):
-    answers = connection.read_csv(ANSWERS_FILENAME)
-
-    new_answer = user_answer
-    new_answer['id'] = new_id(ANSWERS_FILENAME)
-    new_answer['submission_time'] = util.get_current_timestamp()
-    new_answer['vote_number'] = 0
-
-    answers.append(new_answer)
-    connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+@connection.connection_handler
+def add_answer(cursor, user_answer):
+    timestamp = datetime.now()
+    user_answer['submission_time'] = timestamp
+    user_answer['question_id'] = int(user_answer['question_id'])
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+                     VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)""",
+                   user_answer)
 
 
 def delete_question_and_answers_by_id(question_id):
