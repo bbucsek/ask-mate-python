@@ -34,23 +34,14 @@ ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'messag
 
 
 @connection.connection_handler
-def get_answers_by_question_id(cursor, question_id_to_search):
+def get_answers_by_question_id(cursor, question_id):
     cursor.execute("""
                     SELECT * from answer
-                    WHERE question_id=question_id_to_search;
-                    """)
+                    WHERE question_id=%(question_id_to_search)s;
+                    """,
+                   {'question_id_to_search': question_id})
     answers = cursor.fetchall()
     return answers
-
-
-def get_answers_by_question_id(question_id):
-    all_answers = connection.read_csv('answer.csv')
-    answers_for_question = []
-    for answer in all_answers:
-        if answer['question_id'] == question_id:
-            answer['submission_time'] = util.str_timestamp_to_datetime(answer['submission_time'])
-            answers_for_question.append(answer)
-    return answers_for_question
 
 
 @connection.connection_handler
