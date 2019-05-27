@@ -1,22 +1,49 @@
 import connection
 import util
 import os
+from psycopg2 import sql
+
+
+@connection.connection_handler
+def get_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question;
+                   """)
+    questions = cursor.fetchall()
+    return questions
+
+
+@connection.connection_handler
+def get_all_mentor_names(cursor):
+    cursor.execute("""
+                    SELECT first_name, last_name FROM mentors ORDER BY last_name;
+                    """)
+    full_names = cursor.fetchall()
+    return full_names
+
+
+@connection.connection_handler
+def get_question_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)""",
+                   {'question_id': question_id})
+    question = cursor.fetchone()
+    return question
+
+
+def get_question_by_id(question_id):
+        all_questions = connection.read_csv('question.csv')
+        for question in all_questions:
+            if question['id'] == question_id:
+                question['submission_time'] = util.str_timestamp_to_datetime(question['submission_time'])
+                return question
 
 QUESTIONS_FILENAME = 'question.csv'
 QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 ANSWERS_FILENAME = 'answer.csv'
 ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
-
-def get_questions():
-    detailed_questions = connection.read_csv('question.csv')
-    questions = []
-    for question in detailed_questions:
-        new_question = {'id': int(question.get('id')),
-                        'submission_time': util.str_timestamp_to_datetime(question.get('submission_time')),
-                        'title': question.get('title')}
-        questions.append(new_question)
-    return questions
 
 
 def get_answers_by_question_id(question_id):
