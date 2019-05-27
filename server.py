@@ -60,7 +60,7 @@ def delete_question(question_id):
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def delete_answer(answer_id):
     if request.method == 'POST':
-        data_manager.delete_answer_by_id(answer_id)
+        data_manager.delete_answer_with_image_by_id(answer_id)
         question_id = request.form['question_id']
         return redirect(url_for('route_question', question_id=question_id))
 

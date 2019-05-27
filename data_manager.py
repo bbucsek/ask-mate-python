@@ -65,35 +65,40 @@ def add_answer(cursor, user_answer):
 
 
 def delete_question_and_answers_by_id(question_id):
-    questions = connection.read_csv(QUESTIONS_FILENAME)
-    all_answers = connection.read_csv(ANSWERS_FILENAME)
+    answers_to_delete = get_answers_by_question_id(question_id)
+    for answer in answers_to_delete:
+        delete_answer_by_id(answer['id'])
+        delete_image(answer['image'])
 
+    delete_question_by_id(question_id)
+
+
+@connection.connection_handler
+def delete_question_by_id(cursor, question_id):
     question_image = get_question_by_id(question_id)['image']
+    cursor.execute("""
+                    DELETE
+                    FROM question
+                    WHERE id=%(question_id)s;
+                    """,
+                   {'question_id': question_id})
     delete_image(question_image)
 
-    for question in questions:
-        if question['id'] == question_id:
-            questions.remove(question)
-            break
-    for answer in list(all_answers):
-        if answer['question_id'] == question_id:
-            delete_image(answer['image'])
-            all_answers.remove(answer)
 
-    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
-    connection.write_csv(all_answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+def delete_answer_with_image_by_id(answer_id):
+    image = get_image_by_answer_id(answer_id)
+    delete_answer_by_id(answer_id, image)
+    delete_image(image)
 
 
 @connection.connection_handler
 def delete_answer_by_id(cursor, answer_id):
-    image = get_image_by_answer_id(answer_id)
     cursor.execute("""
                     DELETE
                     FROM answer
                     WHERE id=%(answer_id)s;
                     """,
                    {'answer_id': answer_id})
-    delete_image(image)
 
 
 @connection.connection_handler
