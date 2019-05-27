@@ -150,10 +150,12 @@ def vote_answer(answer_id, vote):
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
 
 
-def get_question_id_from_answer_id(answer_id):
-    answers = connection.read_csv(ANSWERS_FILENAME)
-    question_id = ''
-    for answer in answers:
-        if answer['id'] == answer_id:
-            question_id = answer['question_id']
-    return question_id
+@connection.connection_handler
+def get_question_id_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT question_id FROM answer
+                    WHERE id=%(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    question_id = cursor.fetchone()
+    return question_id['question_id']
