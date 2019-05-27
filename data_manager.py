@@ -135,3 +135,12 @@ def vote_answer(answer_id, vote):
             if answer['id'] == answer_id:
                 answer['vote_number'] = int(answer['vote_number']) - 1
     connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+
+
+def get_question_id_from_answer_id(answer_id):
+    answers = connection.read_csv(ANSWERS_FILENAME)
+    question_id = ''
+    for answer in answers:
+        if answer['id'] == answer_id:
+            question_id = answer['question_id']
+    return question_id
