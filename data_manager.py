@@ -99,12 +99,6 @@ def delete_image(image):
         os.remove('.' + image)
 
 
-def new_id(filename):
-    items = connection.read_csv(filename)
-    max_id = max(int(item['id']) for item in items)    # generator expr. -> one iteration
-    return max_id + 1
-
-
 @connection.connection_handler
 def edit_question(cursor, id, edited_question):
     edited_question['id'] = id
