@@ -136,18 +136,23 @@ def vote_question(cursor, question_id, vote):
                     {'question_id': question_id})
 
 
-
-def vote_answer(answer_id, vote):
-    answers = connection.read_csv(ANSWERS_FILENAME)
+@connection.connection_handler
+def vote_answer(cursor, answer_id, vote):
     if vote == 'vote-up':
-        for answer in answers:
-            if answer['id'] == answer_id:
-                answer['vote_number'] = int(answer['vote_number']) + 1
-    else:
-        for answer in answers:
-            if answer['id'] == answer_id:
-                answer['vote_number'] = int(answer['vote_number']) - 1
-    connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+        cursor.execute("""
+                    UPDATE answer 
+                    SET vote_number = vote_number + 1
+                    WHERE id = %(answer_id)s 
+                    """,
+               {'answer_id': answer_id})
+    elif vote == 'vote-down':
+        cursor.execute("""
+                    UPDATE answer 
+                    SET vote_number = vote_number - 1
+                    WHERE id = %(answer_id)s 
+                    """,
+       {'answer_id': answer_id})
+
 
 
 @connection.connection_handler

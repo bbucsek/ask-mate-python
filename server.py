@@ -96,11 +96,10 @@ def vote_question(question_id, vote):
 
 @app.route('/answer/<answer_id>/<vote>')
 def vote_answer(answer_id, vote):
-    question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.vote_answer(answer_id, vote)
-    question = data_manager.get_question_by_id(question_id)
-    answers = data_manager.get_answers_by_question_id(question_id)
-    return render_template('question.html', question=question, answers=answers)
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    return redirect(url_for('route_question', question_id=question_id))
+
 
 
 if __name__ == '__main__':
