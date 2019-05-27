@@ -18,7 +18,8 @@ def get_questions(cursor):
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %(question_id)""",
+                    WHERE id = %(question_id);
+                    """,
                    {'question_id': question_id})
     question = cursor.fetchone()
     return question
@@ -30,6 +31,16 @@ QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'titl
 ANSWERS_FILENAME = 'answer.csv'
 ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
+
+
+@connection.connection_handler
+def get_answers_by_question_id(cursor, question_id_to_search):
+    cursor.execute("""
+                    SELECT * from answer
+                    WHERE question_id=question_id_to_search;
+                    """)
+    answers = cursor.fetchall()
+    return answers
 
 
 def get_answers_by_question_id(question_id):
