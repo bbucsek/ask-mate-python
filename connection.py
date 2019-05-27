@@ -1,28 +1,8 @@
-import csv
 # Creates a decorator to handle the database connection/cursor opening/closing.
 # Creates the cursor with RealDictCursor, thus it returns real dictionaries, where the column names are the keys.
 import os
 import psycopg2
 import psycopg2.extras
-
-
-def read_csv(filename):
-    dict_list= []
-    with open(filename, 'r') as csv_file:
-        data = csv.DictReader(csv_file)
-        for row in data:
-            new_dict = {}
-            for k, v in row.items():
-                new_dict[k] = v
-            dict_list.append(new_dict)
-    return dict_list
-
-
-def write_csv(dict_list, filename, headers):
-    with open(filename, 'w') as csv_file:
-        writer = csv.DictWriter(csv_file, headers)
-        writer.writeheader()
-        writer.writerows(dict_list)
 
 
 def get_connection_string():
@@ -69,4 +49,3 @@ def connection_handler(function):
         return ret_value
 
     return wrapper
-

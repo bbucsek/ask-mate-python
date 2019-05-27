@@ -1,5 +1,4 @@
 import connection
-import util
 import os
 from psycopg2 import sql
 from datetime import datetime
@@ -14,7 +13,6 @@ def get_questions(cursor):
     return questions
 
 
-
 @connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
@@ -24,13 +22,6 @@ def get_question_by_id(cursor, question_id):
                    {'question_id': question_id})
     question = cursor.fetchone()
     return question
-
-
-QUESTIONS_FILENAME = 'question.csv'
-QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
-ANSWERS_FILENAME = 'answer.csv'
-ANSWERS_HEADER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
-
 
 
 @connection.connection_handler
@@ -52,6 +43,7 @@ def add_question(cursor, user_question):
                     INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
                     VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s );
     """, user_question)
+
 
 @connection.connection_handler
 def add_answer(cursor, user_answer):
@@ -181,7 +173,6 @@ def vote_answer(cursor, answer_id, vote):
                     WHERE id = %(answer_id)s 
                     """,
        {'answer_id': answer_id})
-
 
 
 @connection.connection_handler
