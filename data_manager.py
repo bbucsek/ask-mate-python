@@ -105,12 +105,18 @@ def new_id(filename):
     return max_id + 1
 
 
-def edit_question(question_id, edited_question):
-    questions = connection.read_csv(QUESTIONS_FILENAME)
-    for question in questions:
-        if question['id'] == question_id:
-            question.update(edited_question)
-    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+@connection.connection_handler
+def edit_question(cursor, id, edited_question):
+    edited_question['id'] = id
+    cursor.execute("""
+                    UPDATE question
+                    SET 
+                        submission_time=CURRENT_TIMESTAMP,
+                        title=%(title)s,
+                        message=%(message)s
+                    WHERE id=%(id)s;
+                    """, edited_question)
+
 
 @connection.connection_handler
 def vote_question(cursor, question_id, vote):
