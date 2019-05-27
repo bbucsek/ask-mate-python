@@ -2,6 +2,7 @@ import connection
 import util
 import os
 from psycopg2 import sql
+from datetime import datetime
 
 
 @connection.connection_handler
@@ -14,30 +15,14 @@ def get_questions(cursor):
 
 
 @connection.connection_handler
-def get_all_mentor_names(cursor):
-    cursor.execute("""
-                    SELECT first_name, last_name FROM mentors ORDER BY last_name;
-                    """)
-    full_names = cursor.fetchall()
-    return full_names
-
-
-@connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %(question_id)""",
+                    WHERE id = %(question_id);""",
                    {'question_id': question_id})
     question = cursor.fetchone()
     return question
 
-
-def get_question_by_id(question_id):
-        all_questions = connection.read_csv('question.csv')
-        for question in all_questions:
-            if question['id'] == question_id:
-                question['submission_time'] = util.str_timestamp_to_datetime(question['submission_time'])
-                return question
 
 QUESTIONS_FILENAME = 'question.csv'
 QUESTIONS_HEADER = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -56,25 +41,14 @@ def get_answers_by_question_id(question_id):
     return answers_for_question
 
 
-def get_question_by_id(question_id):
-    all_questions = connection.read_csv('question.csv')
-    for question in all_questions:
-        if question['id'] == question_id:
-            question['submission_time'] = util.str_timestamp_to_datetime(question['submission_time'])
-            return question
-
-
-def add_question(user_question):
-    questions = connection.read_csv(QUESTIONS_FILENAME)
-
-    new_question = user_question
-    new_question['id'] = new_id(QUESTIONS_FILENAME)
-    new_question['submission_time'] = util.get_current_timestamp()
-    new_question['view_number'] = 0
-    new_question['vote_number'] = 0
-
-    questions.append(new_question)
-    connection.write_csv(questions, QUESTIONS_FILENAME, QUESTIONS_HEADER)
+@connection.connection_handler
+def add_question(cursor, user_question):
+    timestamp = datetime.now()
+    user_question['submission_time'] = timestamp
+    cursor.execute("""
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+                    VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s );
+    """, user_question)
 
 
 def add_answer(user_answer):
