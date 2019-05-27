@@ -84,19 +84,49 @@ def delete_question_and_answers_by_id(question_id):
     connection.write_csv(all_answers, ANSWERS_FILENAME, ANSWERS_HEADER)
 
 
-def delete_answer_by_id(answer_id):
-    answers = connection.read_csv(ANSWERS_FILENAME)
-    for answer in answers:
-        if answer['id'] == answer_id:
-            delete_image(answer['image'])
-            answers.remove(answer)
-            break
-    connection.write_csv(answers, ANSWERS_FILENAME, ANSWERS_HEADER)
+@connection.connection_handler
+def delete_answer_by_id(cursor, answer_id):
+    image = get_image_by_answer_id(answer_id)
+    cursor.execute("""
+                    DELETE
+                    FROM answer
+                    WHERE id=%(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    delete_image(image)
+
+
+@connection.connection_handler
+def get_image_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT image
+                    FROM answer
+                    WHERE id=%(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    image = cursor.fetchone()
+    return image['image']
+
+
+@connection.connection_handler
+def search_for_image_usage(cursor, image):
+    cursor.execute("""
+                    SELECT id FROM answer
+                    WHERE image=%(image)s
+                    UNION ALL
+                    SELECT id FROM question
+                    WHERE image=%(image)s
+                    """,
+                   {'image': image})
+    is_used = cursor.rowcount > 0
+    return is_used
 
 
 def delete_image(image):
     if image:
-        os.remove('.' + image)
+        is_used = search_for_image_usage(image)
+        if not is_used:
+            os.remove('.' + image)
 
 
 @connection.connection_handler
