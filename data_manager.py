@@ -19,7 +19,7 @@ def get_questions(cursor):
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %(question_id);
+                    WHERE id = %(question_id)s;
                     """,
                    {'question_id': question_id})
     question = cursor.fetchone()
