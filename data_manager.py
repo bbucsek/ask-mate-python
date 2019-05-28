@@ -209,3 +209,13 @@ def get_question_by_answer_id(cursor, answer_id):
                    {'answer_id': answer_id})
     question = cursor.fetchone()
     return question
+
+
+@connection.connection_handler
+def edit_answer(cursor, id, edited_answer):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message=%(message)s
+                    WHERE id=%(id)s;
+                    """, { 'id':id,'message':edited_answer['message'] })
+
