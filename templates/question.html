@@ -21,18 +21,7 @@ tr:nth-child(even) {
 }
 </style>
     </head>
-    <body>
         <h1 style="text-align: center">{{ question.title }}</h1>
-        <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
-        {% if  question.image %}
-            <img src="{{ question.image }}" max-width="100%" height=auto alt="Image for question">
-        {% endif %}
-        <a href="{{ url_for("edit_question", question_id=question.id) }}"><button type="button">Edit question</button></a>
-        <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">
-        <p>
-            <button type="submit">Delete this question(and all the answers)</button>
-        </p>
-        </form>
         <table>
             <tr>
                 <th>Question id</th>
@@ -50,13 +39,21 @@ tr:nth-child(even) {
                 <td>{{ question.vote_number }}</td>
             </tr>
         </table>
+    <body>
+        <p style = "width:80%; background-color: #dddddd;"> {{ question.message }} </p>
+        {% if  question.image %}
+            <img src="{{ question.image }}" max-width="100%" height=auto alt="Image for question">
+        {% endif %}
+        <a href="{{ url_for("edit_question", question_id=question.id) }}"><button type="button">Edit question</button></a>
+        <form action="{{ url_for("delete_question", question_id=question.id) }}" method="post">
+        <p>
+            <button type="submit">Delete this question(and all the answers)</button>
+        </p>
+        </form>
+
         {% block answer %}
         <h2>Answers</h2>
         {% for answer in answers %}
-              <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
-            {% if  answer.image %}
-                 <img src="{{ answer.image }}" max-width="100%" height=auto alt="Image for answer">
-            {% endif %}
             <table>
             <tr>
                 <th>Answer id</th>
@@ -72,6 +69,10 @@ tr:nth-child(even) {
                 <td>{{ answer.vote_number }}</td>
             </tr>
         </table>
+              <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
+            {% if  answer.image %}
+                 <img src="{{ answer.image }}" max-width="100%" height=auto alt="Image for answer">
+            {% endif %}
             <form action="{{ url_for("delete_answer", answer_id=answer.id) }}" method="post">
                 <input type="hidden" name="question_id" value="{{ question.id }}">
                 <p>
