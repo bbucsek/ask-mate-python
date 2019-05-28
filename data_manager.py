@@ -184,3 +184,28 @@ def get_question_id_by_answer_id(cursor, answer_id):
                    {'answer_id': answer_id})
     question_id = cursor.fetchone()
     return question_id['question_id']
+
+
+@connection.connection_handler
+def get_answer_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * 
+                    FROM answer
+                    WHERE id=%(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_question_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT question.*
+                    FROM answer, question
+                    WHERE 
+                        answer.id=%(answer_id)s
+                        AND question.id=answer.question_id;
+                    """,
+                   {'answer_id': answer_id})
+    question = cursor.fetchone()
+    return question

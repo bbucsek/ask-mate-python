@@ -101,6 +101,12 @@ def vote_answer(answer_id, vote):
     return redirect(url_for('route_question', question_id=question_id))
 
 
+@app.route('/answer/<answer_id>/edit')
+def edit_answer(answer_id):
+    question = data_manager.get_question_by_answer_id(answer_id)
+    answer_to_edit = data_manager.get_answer_by_answer_id(answer_id)
+    return render_template('edit.html', answer_to_edit=answer_to_edit, question=question)
+
 
 if __name__ == '__main__':
     app.run(
