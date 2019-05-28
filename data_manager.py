@@ -219,3 +219,13 @@ def edit_answer(cursor, id, edited_answer):
                     WHERE id=%(id)s;
                     """, { 'id':id,'message':edited_answer['message'] })
 
+
+@connection.connection_handler
+def add_comment_to_question(cursor, question_id, user_comment):
+    timestamp = datetime.now()
+    user_comment['submission_time'] = timestamp
+    user_comment['question_id'] = question_id
+    cursor.execute("""
+                    INSERT INTO comment (question_id, submission_time, message, edited_count)
+                    VALUES (%(question_id)s, %(submission_time)s, %(message)s, 0);
+    """, user_comment)

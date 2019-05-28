@@ -112,6 +112,15 @@ def edit_answer(answer_id):
     return render_template('edit.html', answer_to_edit=answer_to_edit, question=question)
 
 
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def add_comment_to_question(question_id):
+    if request.method == 'POST':
+        data_manager.add_comment_to_question(question_id, dict(request.form))
+        return redirect(url_for('route_question', question_id=question_id))
+    question = data_manager.get_question_by_id(question_id)
+    return render_template('add-comment.html', question=question)
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,
