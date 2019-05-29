@@ -57,7 +57,7 @@ tr:nth-child(even) {
             <div>
                 <div>{{ comment.message }}</div>
                 <div>{{ comment.submission_time }}</div>
-                <a href="{{ url_for("delete_question_comment", comment_id=comment.id) }}">
+                <a href="{{ url_for("delete_comment", comment_id=comment.id) }}">
                     <button type="submit">Delete comment</button>
                 </a>
             </div>
@@ -106,6 +106,7 @@ tr:nth-child(even) {
                     <div>
                         <div>{{ comment.message }}</div>
                         <a href="{{ url_for('edit_comment', comment_id=comment.id) }}">Edit this comment</a>
+                        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">Delete this comment</a>
                         {% if comment.edited_count > 0 %}
                             <div>Edited {{ comment.edited_count }} times.</div>
                         {% endif %}
