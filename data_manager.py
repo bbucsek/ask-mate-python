@@ -212,16 +212,16 @@ def get_question_by_answer_id(cursor, answer_id):
 
 @connection.connection_handler
 def get_question_by_search(cursor, search):
-    injection = '%'+ search + '%'
+    searched_text = '%'+ search + '%'
     cursor.execute("""
                     SELECT DISTINCT question.*
                     FROM question, answer
-                    WHERE question.title ILIKE %(injection)s
-                    OR  question.message ILIKE %(injection)s
-                    OR (answer.message ILIKE %(injection)s
+                    WHERE question.title ILIKE %(searched_text)s
+                    OR  question.message ILIKE %(searched_text)s
+                    OR (answer.message ILIKE %(searched_text)s
                     AND answer.question_id=question.id);
                     """,
-                   {'injection': injection})
+                   {'searched_text': searched_text})
     result = cursor.fetchall()
     return result
 
