@@ -324,7 +324,7 @@ def get_question_id_by_comment_id(cursor, comment_id):
                         WHERE id=%(answer_id)s
                         """,
                        {'answer_id': comment['answer_id']})
-        return cursor.fetchone()['question_id']
+        return cursor.fetchone()['answer_id']
 
 
 @connection.connection_handler
