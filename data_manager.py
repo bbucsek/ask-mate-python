@@ -245,3 +245,18 @@ def add_comment_to_question(cursor, question_id, user_comment):
                     INSERT INTO comment (question_id, submission_time, message, edited_count)
                     VALUES (%(question_id)s, %(submission_time)s, %(message)s, 0);
     """, user_comment)
+
+
+@connection.connection_handler
+def get_comments_from_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT *
+                    FROM comment
+                    WHERE 
+                        question_id=%(question_id)s
+                    """,
+                   {'question_id': question_id})
+    comments = cursor.fetchall()
+    return comments
+
+
