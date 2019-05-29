@@ -228,6 +228,15 @@ def get_question_by_search(cursor, search):
 
 
 @connection.connection_handler
+def add_comment_to_answer(cursor, answer_id, message):
+    cursor.execute("""
+                    INSERT INTO comment (answer_id, message, submission_time, edited_count)
+                    VALUES (%(answer_id)s, %(message)s, CURRENT_TIMESTAMP, 0);
+                    """,
+                    {'answer_id': answer_id, 'message': message})
+
+
+@connection.connection_handler
 def edit_answer(cursor, id, edited_answer):
     cursor.execute("""
                     UPDATE answer

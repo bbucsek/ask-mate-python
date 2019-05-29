@@ -85,6 +85,9 @@ tr:nth-child(even) {
                 <button type="submit">Edit this answer</button>
              </p>
             </form>
+            <p>
+                <a href="{{ url_for('add_comment_to_answer', answer_id=answer.id) }}"><button type="button">Add comment for this answer</button></a>
+            </p>
         {% endfor %}
             <a href="/question/{{ question.id }}/new-answer"><button type="button">Answer this question</button></a>
         {% endblock %}
