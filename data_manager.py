@@ -321,10 +321,10 @@ def get_comment_by_id(cursor, comment_id):
 
 def get_question_id_by_comment_id(comment_id):
     comment = get_comment_by_id(comment_id)
-    if comment['question_id']:
-        return comment['question_id']
-    else:   # answer_id is not null
+    if comment['question_id'] is None:
         return get_question_id_by_answer_id(comment['answer_id'])
+    else:
+        return comment['question_id']
 
 
 @connection.connection_handler
