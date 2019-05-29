@@ -35,6 +35,13 @@ def get_answers_by_question_id(cursor, question_id):
     return answers
 
 
+def get_answers_with_comments_by_question_id(question_id):
+    answers = get_answers_by_question_id(question_id)
+    for answer in answers:
+        answer['comments'] = get_comments_from_answer_id(answer['id'])
+    return answers
+
+
 @connection.connection_handler
 def add_question(cursor, user_question):
     timestamp = datetime.now()
