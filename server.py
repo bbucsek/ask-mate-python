@@ -30,7 +30,7 @@ def route_list_ordered(order_key, order_direction):
 def route_question(question_id):
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
-    return render_template('question.html', question=question, answers=answers)
+    return render_template('new_style.html', question=question, answers=answers)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -135,6 +135,7 @@ def add_comment_to_answer(answer_id):
     question = data_manager.get_question_by_answer_id(answer_id)
     answer = data_manager.get_answer_by_answer_id(answer_id)
     return render_template('add-comment-to-answer.html', question=question, answer=answer)
+
 
 
 if __name__ == '__main__':
