@@ -51,7 +51,15 @@ tr:nth-child(even) {
             <button type="submit">Delete this question(and all the answers)</button>
         </p>
         </form>
-
+        <div>
+            <p>Comments to this question:</p>
+            {% for comment in question_comments %}
+            <div>
+                <div>{{ comment.message }}</div>
+                <div>{{ comment.submission_time }}</div>
+            </div>
+            {% endfor %}
+        </div>
         {% block answer %}
         <h2>Answers</h2>
         {% for answer in answers %}

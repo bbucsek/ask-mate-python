@@ -121,7 +121,8 @@ def edit_answer(answer_id):
 def add_comment_to_question(question_id):
     if request.method == 'POST':
         data_manager.add_comment_to_question(question_id, dict(request.form))
-        return redirect(url_for('route_question', question_id=question_id))
+        question_comments = data_manager.get_comments_from_question_id(question_id)
+        return redirect(url_for('route_question', question_id=question_id, question_comments=question_comments))
     question = data_manager.get_question_by_id(question_id)
     return render_template('add-comment.html', question=question)
 
