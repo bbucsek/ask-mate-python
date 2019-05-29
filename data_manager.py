@@ -283,13 +283,15 @@ def get_comments_from_answer_id(cursor, answer_id):
 
 
 @connection.connection_handler
-def edit_comment(cursor, new_message, comment_id):
+def edit_comment(cursor, comment_id, new_message, edited_count):
     cursor.execute("""
                     UPDATE comment
-                    SET message=%(message)s
+                    SET message=%(message)s,
+                        submission_time=CURRENT_TIMESTAMP,
+                        edited_count=%(edited_count)s
                     WHERE id=%(comment_id)s
                     """,
-                   {'comment_id': comment_id, 'message': new_message})
+                   {'comment_id': comment_id, 'message': new_message, 'edited_count': edited_count})
 
 
 @connection.connection_handler
