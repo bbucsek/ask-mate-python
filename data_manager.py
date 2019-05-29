@@ -283,6 +283,16 @@ def get_comments_from_answer_id(cursor, answer_id):
 
 
 @connection.connection_handler
+def edit_comment(cursor, new_message, comment_id):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message=%(message)s
+                    WHERE id=%(comment_id)s
+                    """,
+                   {'comment_id': comment_id, 'message': new_message})
+
+
+@connection.connection_handler
 def delete_comment_by_id(cursor, comment_id):
     cursor.execute("""
                     DELETE
