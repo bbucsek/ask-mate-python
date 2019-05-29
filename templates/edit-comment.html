@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comment</title>
+</head>
+<body>
+    <h1>Edit comment</h1>
+    <form action="{{ url_for('edit_comment', comment_id=comment.id) }}", method="post">
+        <div>
+            <textarea rows="20" cols="50" id="message" name="message" required>{{ comment.message }}</textarea>
+        </div>
+        <input type="hidden" name="edited_count" value="{{ comment.edited_count }}">
+        <div>
+            <input type="submit", value="Save edited comment">
+        </div>
+    </form>
+</body>
+</html>

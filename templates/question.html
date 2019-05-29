@@ -105,6 +105,10 @@ tr:nth-child(even) {
                 {% for comment in answer.comments %}
                     <div>
                         <div>{{ comment.message }}</div>
+                        <a href="{{ url_for('edit_comment', comment_id=comment.id) }}">Edit this comment</a>
+                        {% if comment.edited_count > 0 %}
+                            <div>Edited {{ comment.edited_count }} times.</div>
+                        {% endif %}
                         <div>{{ comment.submission_time }}</div>
                     </div>
                 {% endfor %}
