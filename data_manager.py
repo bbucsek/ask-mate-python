@@ -74,6 +74,9 @@ def delete_question_and_answers_by_id(question_id):
 
 @connection.connection_handler
 def delete_question_by_id(cursor, question_id):
+    comments = get_comments_from_question_id(question_id)
+    for comment in comments:
+        delete_comment_by_id(comment['id'])
     question_image = get_question_by_id(question_id)['image']
     cursor.execute("""
                     DELETE
@@ -86,12 +89,16 @@ def delete_question_by_id(cursor, question_id):
 
 def delete_answer_with_image_by_id(answer_id):
     image = get_image_by_answer_id(answer_id)
-    delete_answer_by_id(answer_id, image)
+    delete_answer_by_id(answer_id)
     delete_image(image)
 
 
 @connection.connection_handler
 def delete_answer_by_id(cursor, answer_id):
+    comments = get_comments_from_answer_id(answer_id)
+    for comment in comments:
+        delete_comment_by_id(comment['id'])
+
     cursor.execute("""
                     DELETE
                     FROM answer
@@ -324,7 +331,7 @@ def get_question_id_by_comment_id(cursor, comment_id):
                         WHERE id=%(answer_id)s
                         """,
                        {'answer_id': comment['answer_id']})
-        return cursor.fetchone()['answer_id']
+        return cursor.fetchone()['question_id']
 
 
 @connection.connection_handler
