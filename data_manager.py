@@ -319,19 +319,12 @@ def get_comment_by_id(cursor, comment_id):
     return cursor.fetchone()
 
 
-@connection.connection_handler
-def get_question_id_by_comment_id(cursor, comment_id):
+def get_question_id_by_comment_id(comment_id):
     comment = get_comment_by_id(comment_id)
     if comment['question_id']:
         return comment['question_id']
     else:   # answer_id is not null
-        cursor.execute("""
-                        SELECT question_id
-                        FROM answer
-                        WHERE id=%(answer_id)s
-                        """,
-                       {'answer_id': comment['answer_id']})
-        return cursor.fetchone()['question_id']
+        return get_question_id_by_answer_id(comment['answer_id'])
 
 
 @connection.connection_handler
