@@ -2,26 +2,29 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>question</title>
+        <title>{{ question.title }}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/new_style.css') }}">
     </head>
     <body>
         <div class="question_menu">
+            <a href="/question/{{ question.id }}/new-answer">Answer this question</a>
             <a href="/question/{{ question.id }}/vote-up">Vote up</a>
             <a href="/question/{{ question.id }}/vote-down">Vote down</a>
             <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
             <a href="{{ url_for("add_comment_to_question", question_id=question.id) }}"> Add comment</a>
             <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
-            <a href="/question/{{ question.id }}/new-answer">Answer this question</a>
         </div>
         <div class="question">
             <div class="question_details">
-                <div>Question ID:{{ question.id }}</div>
-                <div>Submission Time:{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}</div>
-                <div>Viewed:{{ question.view_number }}</div>
-                <div>Vote:{{ question.vote_number }}</div>
+                Question ID:{{ question.id }}
+                Submission Time:{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}
+                Viewed:{{ question.view_number }}
+                Vote:{{ question.vote_number }}
             </div>
             <div class="question_content">
+                <div class="question_title">
+                    {{ question.title }}
+                </div>
                 <div class="question_message">
                     {{ question.message }}
                 </div>
@@ -30,6 +33,11 @@
                         <img src="{{ question.image }}" max-width="100%" height=auto alt="Image for question">
                     {% endif %}
                 </div>
+            </div>
+            <div class="question_comments">
+                {% for comment in question_comments %}
+                    <div>{{ comment.message }}</div>
+                {% endfor %}
             </div>
         </div>
     </body>
