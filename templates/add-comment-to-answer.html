@@ -1,0 +1,35 @@
+{% extends "question.html" %}
+{% block answer %}
+    <div class="answer_display">
+        <table>
+            <tr>
+                <th>Answer id</th>
+                <th>Submitted</th>
+                <th>Voted
+                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-up') }}"><button>Vote up</button></a>
+                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-down') }}"><button>Vote down</button></a>
+                </th>
+            </tr>
+            <tr>
+                <td>{{ answer.id  }}</td>
+                <td>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ answer.vote_number }}</td>
+            </tr>
+        </table>
+              <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
+            {% if  answer.image %}
+                 <img src="{{ answer.image }}" max-width="100%" height=auto alt="Image for answer">
+            {% endif %}
+    </div>
+
+    <h1>New comment</h1>
+    <form action="{{ url_for('add_comment_to_answer', answer_id=answer.id) }}" method=POST style="align-self: center" enctype="multipart/form-data">
+        <p>
+            <label for="message">Comment:</label><br>
+            <textarea rows="20" cols="50" id="message" name="message" required></textarea>
+        </p>
+        <p>
+            <button type="submit">Post your comment</button>
+        </p>
+    </form>
+{% endblock %}
