@@ -47,6 +47,13 @@ tr:nth-child(even) {
             </tr>
         {% endfor %}
     </table>
+    <form action="{{ url_for('route_list') }}", method = post>
+        <label for="search">What are you looking for?</label>
+        <input type="text" name="search" value = {{search if search }}>
+        <input type ="submit" value="Search">
+    </form>
+    {% block search %}
+    {% endblock %}
     {% block add %}
     <p>
        <a href ="/add-question"><button type = button>Ask a question</button></a>

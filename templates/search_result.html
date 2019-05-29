@@ -1,0 +1,28 @@
+{% extends 'list.html' %}
+{% block search %}
+ <h2>Results for search "{{ search }}":</h2>
+    <table>
+        <tr>
+            {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
+                <th>
+                    {{ header_text }}
+                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='asc') }}">
+                        <button>v</button>
+                    </a>
+                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='desc') }}">
+                        <button>^</button>
+                    </a>
+                </th>
+            {% endfor %}
+        </tr>
+        {% set is_reverse = (order_direction == 'desc') if order_direction else True %}
+        {% set sort_attribute = order_key if order_key else 'submission_time' %}
+        {% for result in results%}
+            <tr>
+                <td>{{ result.id }}</td>
+                <td>{{ result.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td><a href="/question/{{ result.id }}">{{ result.title }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

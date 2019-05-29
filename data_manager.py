@@ -210,6 +210,22 @@ def get_question_by_answer_id(cursor, answer_id):
     question = cursor.fetchone()
     return question
 
+@connection.connection_handler
+def get_question_by_search(cursor, search):
+    injection = '%'+ search + '%'
+    cursor.execute("""
+                    SELECT DISTINCT question.*
+                    FROM question, answer
+                    WHERE question.title ILIKE %(injection)s
+                    OR  question.message ILIKE %(injection)s
+                    OR (answer.message ILIKE %(injection)s
+                    AND answer.question_id=question.id);
+                    """,
+                   {'injection': injection})
+    result = cursor.fetchall()
+    return result
+
+
 
 @connection.connection_handler
 def edit_answer(cursor, id, edited_answer):
