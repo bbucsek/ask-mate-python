@@ -42,7 +42,14 @@
         </div>
         <div class="answers">
             {% for answer in answers %}
-                {{ answer }}
+                <div class="answer_details">
+                    ID: {{ answer.id }}
+                    Submissin Time: {{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}
+                    Vote: {{ answer.vote_number}}
+                </div>
+                <div class="answer_content">
+                    {{ answer.message }}
+                </div>
             {% endfor %}
         </div>
     </body>
