@@ -139,6 +139,16 @@ def add_comment_to_answer(answer_id):
     return render_template('add-comment-to-answer.html', question=question, answer=answer)
 
 
+@app.route('/comments/<comment_id>/delete')
+def delete_question_comment(comment_id):
+    id = data_manager.get_question_id_by_comment_id(comment_id)
+    question_id = id['question_id']
+    data_manager.delete_comment_by_id(comment_id)
+    return redirect(url_for('route_question', question_id=question_id))
+
+
+
+
 
 if __name__ == '__main__':
     app.run(

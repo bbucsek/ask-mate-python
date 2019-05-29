@@ -309,3 +309,14 @@ def delete_comment_by_id(cursor, comment_id):
                     WHERE id=%(comment_id)s;
                     """,
                    {'comment_id': comment_id})
+
+
+@connection.connection_handler
+def get_question_id_by_comment_id(cursor, comment_id):
+    cursor.execute("""
+                    SELECT question_id FROM comment
+                    WHERE id = %(comment_id)s;
+                    """,
+                   {'comment_id': comment_id})
+    question_id = cursor.fetchone()
+    return question_id
