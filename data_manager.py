@@ -283,6 +283,7 @@ def get_comments_from_answer_id(cursor, answer_id):
                     FROM comment
                     WHERE 
                         answer_id=%(answer_id)s
+                    ORDER BY submission_time DESC
                     """,
                    {'answer_id': answer_id})
     comments = cursor.fetchall()
