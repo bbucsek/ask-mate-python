@@ -6,14 +6,6 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/new_style.css') }}">
     </head>
     <body>
-        <div class="question_menu">
-            <a href="/question/{{ question.id }}/new-answer">Answer this question</a>
-            <a href="/question/{{ question.id }}/vote-up">Vote up</a>
-            <a href="/question/{{ question.id }}/vote-down">Vote down</a>
-            <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
-            <a href="{{ url_for("add_comment_to_question", question_id=question.id) }}"> Add comment</a>
-            <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
-        </div>
         <div class="question">
             <div class="question_details">
                 Question ID:{{ question.id }}
@@ -34,11 +26,24 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="question_menu">
+                <a href="/question/{{ question.id }}/new-answer">Answer this question</a>
+                <a href="/question/{{ question.id }}/vote-up">Vote up</a>
+                <a href="/question/{{ question.id }}/vote-down">Vote down</a>
+                <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
+                <a href="{{ url_for("add_comment_to_question", question_id=question.id) }}"> Add comment</a>
+                <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
+            </div>
             <div class="question_comments">
                 {% for comment in question_comments %}
                     <div>{{ comment.message }}</div>
                 {% endfor %}
             </div>
+        </div>
+        <div class="answers">
+            {% for answer in answers %}
+                {{ answer }}
+            {% endfor %}
         </div>
     </body>
 </html>
