@@ -260,3 +260,15 @@ def get_comments_from_question_id(cursor, question_id):
     return comments
 
 
+@connection.connection_handler
+def get_comments_from_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT *
+                    FROM comment
+                    WHERE 
+                        answer_id=%(answer_id)s
+                    """,
+                   {'answer_id': answer_id})
+    comments = cursor.fetchall()
+    return comments
+
