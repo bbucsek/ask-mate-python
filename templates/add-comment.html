@@ -2,7 +2,7 @@
 {% extends "question.html" %}
 {% block answer %}
     <h1>New comment</h1>
-    <form action="/question/{{question.id}}/new-comment" method=POST style="align-self: center" enctype="multipart/form-data">
+    <form action="/question/{{question.id}}/new-comment" method=POST style="align-self: center" enctype="multipart/form-data" class="myform">
         <p>
             <label for="message">Comment:</label><br>
             <textarea rows="20" cols="50" id="message" name="message" required></textarea>

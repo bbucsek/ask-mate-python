@@ -1,7 +1,7 @@
 {% extends "question.html" %}
 {% block answer %}
     <h1>New answer</h1>
-    <form action="/question/{{question.id}}/new-answer" method=POST style="align-self: center" enctype="multipart/form-data">
+    <form action="/question/{{question.id}}/new-answer" method=POST style="align-self: center" enctype="multipart/form-data" class="myform">
         <p>
             <label for="message">Answer:</label><br>
             <textarea rows="20" cols="50" id="message" name="message" required></textarea>

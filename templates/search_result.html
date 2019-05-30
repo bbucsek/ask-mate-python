@@ -1,16 +1,17 @@
 {% extends 'list.html' %}
 {% block search %}
  <h2>Results for search "{{ search }}":</h2>
+    <div class="row">
     <table>
         <tr>
             {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
                 <th>
                     {{ header_text }}
                     <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='asc') }}">
-                        <button>v</button>
+                        <button>⬇︎</button>
                     </a>
                     <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='desc') }}">
-                        <button>^</button>
+                        <button>⬆︎</button>
                     </a>
                 </th>
             {% endfor %}
@@ -25,4 +26,5 @@
             </tr>
         {% endfor %}
     </table>
+    </div>
 {% endblock %}

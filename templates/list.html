@@ -3,64 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Questions | AskMate</title>
-    <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
+         <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Questions</h1>
-    <table>
-        <tr>
-            {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
-                <th>
-                    {{ header_text }}
-                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='asc') }}">
-                        <button>v</button>
-                    </a>
-                    <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='desc') }}">
-                        <button>^</button>
-                    </a>
-                </th>
-            {% endfor %}
-        </tr>
-        {% set is_reverse = (order_direction == 'desc') if order_direction else True %}
-        {% set sort_attribute = order_key if order_key else 'submission_time' %}
-        {% for question in questions|sort(reverse=is_reverse, attribute=sort_attribute) %}
+    <div class="content">
+    <div class="footer">
+    <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
+</div>
+        <div class="header">
+            <h2>Questions</h2>
+        </div>
+    <div class="row">
+        <table>
             <tr>
-                <td>{{ question.id }}</td>
-                <td>{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
-                <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
+                    <th>
+                        {{ header_text }}
+                        <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='asc') }}">
+                            <button>⬆︎</button>
+                        </a>
+                        <a href="{{ url_for('route_list_ordered', order_key=field, order_direction='desc') }}">
+                            <button>⬇︎</button>
+                        </a>
+                    </th>
+                {% endfor %}
             </tr>
-        {% endfor %}
-    </table>
-    <form action="{{ url_for('route_list') }}", method = post>
-        <label for="search">What are you looking for?</label>
-        <input type="text" name="search" value = {{search if search }}>
-        <input type ="submit" value="Search">
-    </form>
+            {% set is_reverse = (order_direction == 'desc') if order_direction else True %}
+            {% set sort_attribute = order_key if order_key else 'submission_time' %}
+            {% for question in questions|sort(reverse=is_reverse, attribute=sort_attribute) %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="comment-menu">
+            <form action="{{ url_for('route_list') }}", method = post>
+                <input type="text" name="search" value = {{search if search }}>
+                <input type ="submit" value="Search">
+            </form>
+            <a href ="/add-question">Ask a question</a>
+            {% if type == 'list_five' %}
+        <a href ="/list">Show all question</a>
+        {% endif %}
+        </div>
+    </div>
     {% block search %}
     {% endblock %}
     {% block add %}
-    <p>
-       <a href ="/add-question"><button type = button>Ask a question</button></a>
-    </p>
     {% endblock %}
-    {% if type == 'list_five' %}
-    <a href ="/list"><button type = button>Show all question</button></a>
-    {% endif %}
+    <div class="row">
+        <div class="empty"></div>
+    </div>
+    <div class="footer">
+  <a href="/" style="font-size: 30px; color: white;"><i class="fas fa-home"></i></a>
+</div>
+</div>
 </body>
 </html>
