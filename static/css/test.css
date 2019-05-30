@@ -104,9 +104,11 @@ body {
 }
 
 .message {
- padding: 16px;
+  padding: 16px;
   white-space: pre-wrap;
   color: #444444;
+  overflow: scroll;
+  height: 100%;
 }
 
 .column-comment{

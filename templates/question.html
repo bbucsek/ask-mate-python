@@ -46,9 +46,8 @@
             <div class="details">
                 <span><b>Submission Time: </b> {{ comment.submission_time }}</span>
                 {% if comment.edited_count %}
-                    <span><b>Edited</b>{{ comment.edited_count }}<b>times</b></span>
+                    <span><b>Edited </b>{{ comment.edited_count }}<b> times</b></span>
                 {% endif %}
-
             </div>
             <div class="comment_message, message">
                 {{ comment.message }}
