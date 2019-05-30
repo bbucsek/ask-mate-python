@@ -1,25 +1,29 @@
 {% extends "question.html" %}
 {% block answer %}
-    <div class="answer_display">
-        <table>
-            <tr>
-                <th>Answer id</th>
-                <th>Submitted</th>
-                <th>Voted
-                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-up') }}"><button>Vote up</button></a>
-                    <a href="{{ url_for('vote_answer', answer_id=answer.id, vote='vote-down') }}"><button>Vote down</button></a>
-                </th>
-            </tr>
-            <tr>
-                <td>{{ answer.id  }}</td>
-                <td>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</td>
-                <td>{{ answer.vote_number }}</td>
-            </tr>
-        </table>
-              <p style = "width:80%; background-color: #dddddd;">{{ answer.message }}</p>
-            {% if  answer.image %}
-                 <img src="{{ answer.image }}" max-width="100%" height=auto alt="Image for answer">
-            {% endif %}
+    <div class="row">
+        <div class="column1" id="question">
+            <div class="details">
+                <span><b>ID: </b>{{ answer.id }}</span>
+                <span><b>Submission Time: </b>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</span>
+                <span><b>Vote:</b>{{ answer.vote_number }}</span>
+            </div>
+            <div class="message">
+                {{ answer.message }}
+            </div>
+        </div>
+      <div class="column2" id="question-image">
+      <div class="details"></div>
+          {% if  answer.image %}
+              <img src="{{ answer.image }}">
+          {% endif %}
+      </div>
+      <div class="column3, menu" >
+                    <a href="/question/{{ answer.id }}/vote-up">Vote up</a>
+                    <a href="/question/{{ answer.id }}/vote-down">Vote down</a>
+                    <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
+                    <a href="{{ url_for("add_comment_to_answer", answer_id=answer.id) }}"> Add comment</a>
+                    <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+      </div>
     </div>
 
     <h1>New comment</h1>
