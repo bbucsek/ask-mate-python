@@ -59,5 +59,8 @@ tr:nth-child(even) {
        <a href ="/add-question"><button type = button>Ask a question</button></a>
     </p>
     {% endblock %}
+    {% if type == 'list_five' %}
+    <a href ="/list"><button type = button>Show all question</button></a>
+    {% endif %}
 </body>
 </html>

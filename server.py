@@ -10,14 +10,21 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
+def route_index_page():
+    questions = data_manager.get_latest_five_questions()
+    type = 'list_five'
+    return render_template('list.html', questions=questions, type=type)
+
+
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
     questions = data_manager.get_questions()
+    type = 'list_all'
     if request.method == 'POST':
         search = request.form['search']
         search_results = data_manager.get_question_by_search(search)
         return render_template('search_result.html', search=search, results=search_results, questions=questions)
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, type=type)
 
 
 @app.route('/list?order_by=<order_key>&order_direction=<order_direction>')

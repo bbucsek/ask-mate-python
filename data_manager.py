@@ -337,3 +337,14 @@ def edit_comment(cursor, comment_id, new_message, edited_count):
                     WHERE id=%(comment_id)s
                     """,
                    {'comment_id': comment_id, 'message': new_message, 'edited_count': edited_count})
+
+
+@connection.connection_handler
+def get_latest_five_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    ORDER BY id DESC
+                    LIMIT 5;
+                   """)
+    questions = cursor.fetchall()
+    return questions
