@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>Layout test</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    </head>
+<body>
+<div class="header">
+  <h3>{{ question.title }}</h3>
+</div>
+
+<div class="row">
+    <div class="column1" id="question">
+        <div class="details">
+            <span><b>Question ID: </b>{{ question.id }}</span>
+            <span><b>Submission Time: </b>{{ question.submission_time.strftime('%Y-%m-%d %H:%M') }}</span>
+            <span><b>Viewed: </b>{{ question.view_number }}</span>
+            <span><b>Vote: </b>{{ question.vote_number }}</span>
+        </div>
+        <div class="message">
+            {{ question.message }}
+        </div>
+    </div>
+  <div class="column2" id="question-image">
+    <div class="details"></div>
+      {% if  question.image %}
+          <img src="{{ question.image }}">
+      {% endif %}
+  </div>
+  <div class="column3, menu">
+                <a class="active" href="/question/{{ question.id }}/new-answer">Answer this question</a>
+                <a href="/question/{{ question.id }}/vote-up">Vote up</a>
+                <a href="/question/{{ question.id }}/vote-down">Vote down</a>
+                <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
+                <a href="{{ url_for("add_comment_to_question", question_id=question.id) }}"> Add comment</a>
+                <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
+  </div>
+</div>
+<div><b>Comments:</b></div>
+{% for comment in question_comments %}
+    <div class="row">
+        <div class="column2, empty"></div>
+        <div class="column-comment">
+            <div class="details">
+                <span><b>Submission Time: </b> {{ comment.submission_time }}</span>
+                {% if comment.edited_count %}
+                    <span><b>Edited</b>{{ comment.edited_count }}<b>times</b></span>
+                {% endif %}
+
+            </div>
+            <div class="comment_message, message">
+                {{ comment.message }}
+            </div>
+
+        </div>
+        <div class="comment-menu, menu">
+            <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
+            <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% block answer %}
+<div class = header><h4>Answers</h4></div>
+{% for answer in answers %}
+    <div class="row">
+        <div class="column1" id="question">
+            <div class="details">
+                <span><b>ID: </b>{{ answer.id }}</span>
+                <span><b>Submission Time: </b>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</span>
+                <span><b>Vote:</b>{{ answer.vote_number }}</span>
+            </div>
+            <div class="message">
+                {{ answer.message }}
+            </div>
+        </div>
+      <div class="column2" id="question-image">
+      <div class="details"></div>
+          {% if  answer.image %}
+              <img src="{{ answer.image }}">
+          {% endif %}
+      </div>
+      <div class="column3, menu" >
+                    <a href="/answer/{{ answer.id }}/vote-up">Vote up</a>
+                    <a href="/answer/{{ answer.id }}/vote-down">Vote down</a>
+                    <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
+                    <a href="{{ url_for("add_comment_to_answer", answer_id=answer.id) }}"> Add comment</a>
+                    <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+      </div>
+    </div>
+    <div><b>Comments:</b></div>
+    {% for comment in answer.comments %}
+        <div class="row">
+            <div class="column2, empty"></div>
+            <div class="column-comment">
+                <div class="details">
+                    <span><b>Submission Time: </b> {{ comment.submission_time }}</span>
+                    {% if comment.edited_count %}
+                        <span><b>Edited</b>{{ comment.edited_count }}<b>times</b></span>
+                    {% endif %}
+
+                </div>
+                <div class="comment_message, message">
+                    {{ comment.message }}
+                </div>
+
+            </div>
+            <div class="comment-menu, menu">
+                <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
+                <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
+{% endblock %}
+
+<div class="footer">
+  <a href="/" style="{color: gray(); size: 20px;}"><i class="fas fa-home"></i></a>
+</div>
+
+
+</body>
+</html>
