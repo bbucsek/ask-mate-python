@@ -42,7 +42,7 @@ def route_question(question_id):
 
     answers = data_manager.get_answers_with_comments_by_question_id(question_id)
     question_comments = data_manager.get_comments_from_question_id(question_id)
-    return render_template('question.html', question=question, answers=answers, question_comments=question_comments)
+    return render_template('test.html', question=question, answers=answers, question_comments=question_comments)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

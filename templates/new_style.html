@@ -6,6 +6,9 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/new_style.css') }}">
     </head>
     <body>
+        <div class="title">
+            {{ question.title }}
+        </div>
         <div class="question">
             <div class="question_details">
                 Question ID:{{ question.id }}
@@ -14,9 +17,6 @@
                 Vote:{{ question.vote_number }}
             </div>
             <div class="question_content">
-                <div class="question_title">
-                    {{ question.title }}
-                </div>
                 <div class="question_message">
                     {{ question.message }}
                 </div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="question_menu">
-                <a href="/question/{{ question.id }}/new-answer">Answer this question</a>
+                <a class="active" href="/question/{{ question.id }}/new-answer">Answer this question</a>
                 <a href="/question/{{ question.id }}/vote-up">Vote up</a>
                 <a href="/question/{{ question.id }}/vote-down">Vote down</a>
                 <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>

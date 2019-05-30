@@ -1,3 +1,8 @@
+body {
+  background-image: linear-gradient(mediumslateblue, lightskyblue, gainsboro);
+  background-repeat: repeat-x;
+   background-size: 100%;
+}
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -16,6 +21,7 @@ tr:nth-child(even) {
 
 .question_menu {
   list-style-type: none;
+  float: right;
   margin: 0;
   padding: 0;
   width: 200px;
@@ -37,6 +43,17 @@ tr:nth-child(even) {
 .question_menu a:hover:not(.active) {
   background-color: #555;
   color: white;
+
 }
+
+.question {
+  float: right;
+}
+
+.question_message, .question_image{
+  float:left
+}
+
+
 
 
