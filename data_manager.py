@@ -141,19 +141,6 @@ def delete_image(image):
 
 
 @connection.connection_handler
-def edit_question(cursor, id, edited_question):
-    edited_question['id'] = id
-    cursor.execute("""
-                    UPDATE question
-                    SET 
-                        submission_time=CURRENT_TIMESTAMP,
-                        title=%(title)s,
-                        message=%(message)s
-                    WHERE id=%(id)s;
-                    """, edited_question)
-
-
-@connection.connection_handler
 def vote_question(cursor, question_id, vote):
     if vote == 'vote-up':
         cursor.execute("""
@@ -251,12 +238,37 @@ def add_comment_to_answer(cursor, answer_id, message):
 
 
 @connection.connection_handler
-def edit_answer(cursor, id, edited_answer):
+def edit_question(cursor, edited_question):
+    edited_question = handle_new_image(edited_question)
+    cursor.execute("""
+                    UPDATE question
+                    SET 
+                        submission_time=CURRENT_TIMESTAMP,
+                        title=%(title)s,
+                        message=%(message)s,
+                        image=%(image)s
+                    WHERE id=%(id)s;
+                    """, edited_question)
+
+
+@connection.connection_handler
+def edit_answer(cursor, edited_answer):
+    edited_answer = handle_new_image(edited_answer)
     cursor.execute("""
                     UPDATE answer
-                    SET message=%(message)s
+                    SET message=%(message)s,
+                        image=%(image)s
                     WHERE id=%(id)s;
-                    """, { 'id':id,'message':edited_answer['message'] })
+                    """, edited_answer)
+
+
+def handle_new_image(edited):
+    if edited.get('old_image'):
+        if edited.get('image'):
+            delete_image(edited['old_image'])
+        else:
+            edited['image'] = edited['old_image']
+    return edited
 
 
 @connection.connection_handler

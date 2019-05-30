@@ -1,18 +1,23 @@
 {% extends "question.html" %}
 {% block answer %}
     {% if answer_to_edit %}
-        <form action="{{ url_for('edit_answer', answer_id=answer_to_edit.id) }}" method="post">
+        <form action="{{ url_for('edit_answer', answer_id=answer_to_edit.id) }}" method="post" enctype="multipart/form-data">
             <h1>Edit answer</h1>
             <p>
                 <label for="message">Message:</label><br>
                 <textarea rows="20" cols="50" id="message" name="message" required>{{ answer_to_edit.message }}</textarea>
             </p>
             <p>
+                <label for="upload-image">Change image:</label><br>
+                <input type=file id="upload-image" name=image_file>
+             </p>
+            <input type="hidden" name="old_image" value="{{ answer_to_edit.image }}">
+            <p>
                 <input type="submit" value="Edit answer">
             </p>
         </form>
     {% else %}
-         <form action="{{ url_for('edit_question', question_id=question.id) }}" method="post">
+         <form action="{{ url_for('edit_question', question_id=question.id) }}" method="post" enctype="multipart/form-data">
             <h1>Edit question</h1>
             <p>
                 <label for="title">Question:</label><br>
@@ -22,6 +27,11 @@
                 <label for="message">Message:</label><br>
                 <textarea rows="20" cols="50" id="message" name="message" required>{{ question.message }}</textarea>
             </p>
+             <p>
+                <label for="upload-image">Change image:</label><br>
+                <input type=file id="upload-image" name=image_file>
+             </p>
+             <input type="hidden" name="old_image" value={{ question.image }}>
             <p>
                 <input type="submit" value="Edit question">
             </p>

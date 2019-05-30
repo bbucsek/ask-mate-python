@@ -98,7 +98,11 @@ def new_answer(question_id):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     if request.method == 'POST':
-        data_manager.edit_question(question_id, dict(request.form))
+        edited_question = dict(request.form)
+        new_image = save_file(request.files['image_file'])
+        edited_question['image'] = new_image
+        edited_question['id'] = question_id
+        data_manager.edit_question(edited_question)
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
     return render_template('/edit.html', question=question)
@@ -120,7 +124,12 @@ def vote_answer(answer_id, vote):
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     if request.method == 'POST':
-        data_manager.edit_answer(answer_id, dict(request.form))
+        edited_answer = dict(request.form)
+        new_image = save_file(request.files['image_file'])
+        edited_answer['image'] = new_image
+        edited_answer['id'] = answer_id
+        data_manager.edit_answer(edited_answer)
+
         question_id = data_manager.get_question_id_by_answer_id(answer_id)
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_answer_id(answer_id)
