@@ -116,7 +116,7 @@ def get_image_by_answer_id(cursor, answer_id):
                     """,
                    {'answer_id': answer_id})
     image = cursor.fetchone()
-    return image['image']
+    return image['image'] if image else None
 
 
 @connection.connection_handler

@@ -66,19 +66,17 @@ def save_file(file_to_upload):
     return str(filepath)[1:]
 
 
-@app.route('/question/<question_id>/delete', methods=['POST'])
+@app.route('/question/<question_id>/delete', methods=['GET'])
 def delete_question(question_id):
-    if request.method == 'POST':
-        data_manager.delete_question_and_answers_by_id(question_id)
-        return redirect('/list')
+    data_manager.delete_question_and_answers_by_id(question_id)
+    return redirect('/list')
 
 
-@app.route('/answer/<answer_id>/delete', methods=['POST'])
+@app.route('/answer/<answer_id>/delete', methods=['GET'])
 def delete_answer(answer_id):
-    if request.method == 'POST':
-        data_manager.delete_answer_with_image_by_id(answer_id)
-        question_id = request.form['question_id']
-        return redirect(url_for('route_question', question_id=question_id))
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    data_manager.delete_answer_with_image_by_id(answer_id)
+    return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
