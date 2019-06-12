@@ -391,3 +391,13 @@ def get_user_id_by_username(cursor, username):
                     """, {'username': username})
     user_id = cursor.fetchone()
     return user_id['id']
+
+
+@connection.connection_handler
+def get_question_user_id_by_question_id(cursor, question_id):
+    cursor.execute("""
+                        SELECT user_id FROM question
+                        WHERE id = %(question_id)s;
+                    """, {'question_id': question_id})
+    user_id = cursor.fetchone()
+    return user_id['id']
