@@ -76,7 +76,7 @@ def save_file(file_to_upload):
 @util.login_required
 def delete_question(question_id):
     question_user_id = data_manager.get_question_user_id_by_question_id(question_id)
-    if session['user_id']== question_user_id:
+    if session['user_id'] == question_user_id:
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
     else:
@@ -114,15 +114,19 @@ def new_answer(question_id):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 @util.login_required
 def edit_question(question_id):
-    if request.method == 'POST':
-        edited_question = dict(request.form)
-        new_image = save_file(request.files['image_file'])
-        edited_question['image'] = new_image
-        edited_question['id'] = question_id
-        data_manager.edit_question(edited_question)
-        return redirect(url_for('route_question', question_id=question_id))
-    question = data_manager.get_question_by_id(question_id)
-    return render_template('/edit.html', question=question)
+    question_user_id = data_manager.get_question_user_id_by_question_id(question_id)
+    if session['user_id'] == question_user_id:
+        if request.method == 'POST':
+            edited_question = dict(request.form)
+            new_image = save_file(request.files['image_file'])
+            edited_question['image'] = new_image
+            edited_question['id'] = question_id
+            data_manager.edit_question(edited_question)
+            return redirect(url_for('route_question', question_id=question_id))
+        question = data_manager.get_question_by_id(question_id)
+        return render_template('/edit.html', question=question)
+    else:
+        return "You don't have the permission to edit this question!"
 
 
 @app.route('/question/<question_id>/<vote>')
