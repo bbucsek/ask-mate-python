@@ -75,9 +75,8 @@ def save_file(file_to_upload):
 @app.route('/question/<question_id>/delete', methods=['GET'])
 @util.login_required
 def delete_question(question_id):
-    user_id = data_manager.get_user_id_by_username(session['username'])
     question_user_id = data_manager.get_question_user_id_by_question_id(question_id)
-    if user_id == question_user_id:
+    if session['user_id']== question_user_id:
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
     else:
@@ -87,9 +86,8 @@ def delete_question(question_id):
 @app.route('/answer/<answer_id>/delete', methods=['GET'])
 @util.login_required
 def delete_answer(answer_id):
-    user_id = data_manager.get_user_id_by_username(session['username'])
     answer_user_id = data_manager.get_user_id_by_answer_id(answer_id)
-    if user_id == answer_user_id:
+    if session['user_id'] == answer_user_id:
         question_id = data_manager.get_question_id_by_answer_id(answer_id)
         data_manager.delete_answer_with_image_by_id(answer_id)
         return redirect(url_for('route_question', question_id=question_id))
