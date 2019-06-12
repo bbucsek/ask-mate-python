@@ -81,15 +81,20 @@ def delete_question(question_id):
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
     else:
-        return 'You dont have the permission to delete this question!'
+        return "You don't have the permission to delete this question!"
 
 
 @app.route('/answer/<answer_id>/delete', methods=['GET'])
 @util.login_required
 def delete_answer(answer_id):
-    question_id = data_manager.get_question_id_by_answer_id(answer_id)
-    data_manager.delete_answer_with_image_by_id(answer_id)
-    return redirect(url_for('route_question', question_id=question_id))
+    user_id = data_manager.get_user_id_by_username(session['username'])
+    answer_user_id = data_manager.get_user_id_by_answer_id(answer_id)
+    if user_id == answer_user_id:
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
+        data_manager.delete_answer_with_image_by_id(answer_id)
+        return redirect(url_for('route_question', question_id=question_id))
+    else:
+        return "You don't have the permission to delete this answer!"
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])

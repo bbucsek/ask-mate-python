@@ -404,3 +404,13 @@ def get_question_user_id_by_question_id(cursor, question_id):
                     """, {'question_id': question_id})
     user_id = cursor.fetchone()
     return user_id['user_id']
+
+
+@connection.connection_handler
+def get_user_id_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT user_id FROM answer
+                    WHERE id = %(answer_id)s;
+                    """, {'answer_id': answer_id})
+    user_id = cursor.fetchone()
+    return user_id['user_id']
