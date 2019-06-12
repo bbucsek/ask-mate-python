@@ -372,3 +372,12 @@ def save_user(cursor, username, hashed_pw):
     except psycopg2.errors.UniqueViolation:
         return "This username is already used. Please, try another!"
 
+
+@connection.connection_handler
+def get_hash_by_username(cursor, username):
+    cursor.execute("""
+                        SELECT password FROM users
+                        WHERE username = %(username)s;
+                    """, {'username': username})
+    hash = cursor.fetchone()
+    return hash['password']

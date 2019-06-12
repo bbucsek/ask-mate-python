@@ -1,13 +1,16 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session, escape
 from werkzeug.utils import secure_filename
 import data_manager
 import util
+from functools import wraps
+
 
 UPLOAD_FOLDER = './static/images'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/doG'
 
 
 @app.route('/')
@@ -47,6 +50,7 @@ def route_question(question_id):
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
+@util.login_required
 def add_question():
     if request.method == 'POST':
         new_question = dict(request.form)
@@ -68,12 +72,14 @@ def save_file(file_to_upload):
 
 
 @app.route('/question/<question_id>/delete', methods=['GET'])
+@util.login_required
 def delete_question(question_id):
     data_manager.delete_question_and_answers_by_id(question_id)
     return redirect('/list')
 
 
 @app.route('/answer/<answer_id>/delete', methods=['GET'])
+@util.login_required
 def delete_answer(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.delete_answer_with_image_by_id(answer_id)
@@ -81,6 +87,7 @@ def delete_answer(answer_id):
 
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+@util.login_required
 def new_answer(question_id):
     if request.method == 'POST':
         file_to_upload = request.files['image_file']
@@ -95,6 +102,7 @@ def new_answer(question_id):
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
+@util.login_required
 def edit_question(question_id):
     if request.method == 'POST':
         edited_question = dict(request.form)
@@ -121,6 +129,7 @@ def vote_answer(answer_id, vote):
 
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+@util.login_required
 def edit_answer(answer_id):
     if request.method == 'POST':
         edited_answer = dict(request.form)
@@ -137,6 +146,7 @@ def edit_answer(answer_id):
 
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+@util.login_required
 def add_comment_to_question(question_id):
     if request.method == 'POST':
         data_manager.add_comment_to_question(question_id, dict(request.form))
@@ -147,6 +157,7 @@ def add_comment_to_question(question_id):
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+@util.login_required
 def add_comment_to_answer(answer_id):
     if request.method == 'POST':
         comment_message = request.form['message']
@@ -159,6 +170,7 @@ def add_comment_to_answer(answer_id):
 
 
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
+@util.login_required
 def edit_comment(comment_id):
     if request.method == 'POST':
         new_message = request.form['message']
@@ -171,6 +183,7 @@ def edit_comment(comment_id):
 
 
 @app.route('/comments/<comment_id>/delete')
+@util.login_required
 def delete_comment(comment_id):
     question_id = data_manager.get_question_id_by_comment_id(comment_id)
     data_manager.delete_comment_by_id(comment_id)
@@ -188,6 +201,24 @@ def registration():
         else:
             return redirect('/')
     return render_template('reg_login.html', title='Registration', server_function='registration', submit_text='Register!')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        hash = data_manager.get_hash_by_username(request.form['username'])
+        if hash and util.verify_password(request.form['password'], hash):
+            session['username'] = request.form['username']
+            return redirect(url_for('route_list'))
+        else:
+            return render_template('reg_login.html', error='Wrong username/password', title='Login', server_function='login', submit_text='Login!')
+    return render_template('reg_login.html', title='Login', server_function='login', submit_text='Login!')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('list'))
 
 
 if __name__ == '__main__':
