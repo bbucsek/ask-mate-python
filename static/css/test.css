@@ -192,12 +192,18 @@ tr:nth-child(even) {
 #username {
   align-items: flex-end;
   color: white;
+  width: 130px;
+
 }
 
-top {
+#username a {
+  display: inline;
+}
+
+.top {
   display: flex;
 }
 
-top h2 {
+.top h2 {
   align-items: flex-start;
 }

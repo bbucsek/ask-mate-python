@@ -11,8 +11,15 @@
     <div class="footer top">
         <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
         {% if session.username %}
-            <div id="username">Logged in as {{ session.username }} </div>
-            <a href="{{ url_for('logout') }}">Log out</a>
+            <div id="username">Logged in as {{ session.username }}
+                <a href="{{ url_for('logout') }}"> Log out</a>
+            </div>
+
+        {% else %}
+            <div id="username">
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('registration') }}">Registration</a>
+            </div>
         {% endif %}
     </div>
         <div class="header">
