@@ -400,4 +400,4 @@ def get_question_user_id_by_question_id(cursor, question_id):
                         WHERE id = %(question_id)s;
                     """, {'question_id': question_id})
     user_id = cursor.fetchone()
-    return user_id['id']
+    return user_id['user_id']

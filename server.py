@@ -81,7 +81,7 @@ def delete_question(question_id):
         data_manager.delete_question_and_answers_by_id(question_id)
         return redirect('/list')
     else:
-        flash('you cant you idiot')
+        return 'You dont have the permission to delete this question!'
 
 
 @app.route('/answer/<answer_id>/delete', methods=['GET'])
