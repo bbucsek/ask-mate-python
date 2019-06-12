@@ -218,6 +218,7 @@ def login():
         hash = data_manager.get_hash_by_username(request.form['username'])
         if hash and util.verify_password(request.form['password'], hash):
             session['username'] = request.form['username']
+            session['user_id'] = data_manager.get_user_id_by_username(session['username'])
             return redirect(url_for('route_list'))
         else:
             return render_template('reg_login.html', error='Wrong username/password', title='Login', server_function='login', submit_text='Login!')
@@ -227,6 +228,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('user_id', None)
     return redirect(url_for('route_list'))
 
 
