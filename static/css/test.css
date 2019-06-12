@@ -78,7 +78,7 @@ body {
 }
 
 
-.column3 > a {
+.column3, .top a {
   display: block;
   color: #000;
   padding: 8px 16px;
@@ -89,12 +89,12 @@ body {
   text-align: center;
 }
 
-.column3 a.active {
+.column3, .top a.active {
   background-color: darkslateblue;
   color: white;
 }
 
-.column3 a:hover:not(.active) {
+.column3, .top a:hover:not(.active) {
   background-color: #555;
   color: white;
 
@@ -186,6 +186,18 @@ tr:nth-child(even) {
 }
 
 .myform {
-  margin-left: 20 px;
+  margin-left: 20px;
 }
 
+#username {
+  align-items: flex-end;
+  color: white;
+}
+
+top {
+  display: flex;
+}
+
+top h2 {
+  align-items: flex-start;
+}

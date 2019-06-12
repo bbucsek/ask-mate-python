@@ -218,7 +218,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('list'))
+    return redirect(url_for('route_list'))
 
 
 if __name__ == '__main__':
