@@ -1,6 +1,6 @@
 import connection
 import os
-from psycopg2 import sql
+import psycopg2
 from datetime import datetime
 
 
@@ -364,7 +364,11 @@ def get_latest_five_questions(cursor):
 
 @connection.connection_handler
 def save_user(cursor, username, hashed_pw):
-    cursor.execute("""
-                    INSERT INTO users (username, password, registration_time, reputation)
-                    VALUES (%(username)s, %(hashed_pw)s, CURRENT_TIMESTAMP, 0)
-                    """, {'username': username, 'hashed_pw': hashed_pw})
+    try:
+        cursor.execute("""
+                        INSERT INTO users (username, password, registration_time, reputation)
+                        VALUES (%(username)s, %(hashed_pw)s, CURRENT_TIMESTAMP, 0)
+                        """, {'username': username, 'hashed_pw': hashed_pw})
+    except psycopg2.errors.UniqueViolation:
+        return "This username is already used. Please, try another!"
+

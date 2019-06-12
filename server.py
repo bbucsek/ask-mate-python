@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import data_manager
 import util
@@ -182,9 +182,12 @@ def registration():
     if request.method == 'POST':
         hashed_pw = util.hash_password(request.form['password'])
         user_name = request.form['username']
-        data_manager.save_user(user_name, hashed_pw)
-        return redirect('/')
-    return render_template('registration.html')
+        error = data_manager.save_user(user_name, hashed_pw)
+        if error:
+            return render_template('reg_login.html', error=error, title='Registration', server_function='registration', submit_text='Register!')
+        else:
+            return redirect('/')
+    return render_template('reg_login.html', title='Registration', server_function='registration', submit_text='Register!')
 
 
 if __name__ == '__main__':
