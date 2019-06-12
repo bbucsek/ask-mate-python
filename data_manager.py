@@ -379,5 +379,5 @@ def get_hash_by_username(cursor, username):
                         SELECT password FROM users
                         WHERE username = %(username)s;
                     """, {'username': username})
-    hash = cursor.fetchone()
-    return hash['password']
+    pw_hash = cursor.fetchone()
+    return pw_hash['password'] if pw_hash else None
