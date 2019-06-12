@@ -381,3 +381,13 @@ def get_hash_by_username(cursor, username):
                     """, {'username': username})
     pw_hash = cursor.fetchone()
     return pw_hash['password'] if pw_hash else None
+
+
+@connection.connection_handler
+def get_user_id_by_username(cursor, username):
+    cursor.execute("""
+                        SELECT id FROM users
+                        WHERE username = %(username)s;
+                    """, {'username': username})
+    user_id = cursor.fetchone()
+    return user_id['id']
