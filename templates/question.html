@@ -36,9 +36,11 @@
                 <a class="active" href="/question/{{ question.id }}/new-answer">Answer this question</a>
                 <a href="/question/{{ question.id }}/vote-up">Vote up</a>
                 <a href="/question/{{ question.id }}/vote-down">Vote down</a>
-                <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
                 <a href="{{ url_for("add_comment_to_question", question_id=question.id) }}"> Add comment</a>
-                <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
+                {% if session.user_id and session.user_id == question.user_id %}
+                    <a href="{{ url_for("edit_question", question_id=question.id) }}"> Edit question</a>
+                    <a href="{{ url_for("delete_question", question_id=question.id) }}"> Delete question(and all the answers)</a>
+                {% endif %}
   </div>
 </div>
 <div><b> Comments:</b></div>
@@ -58,8 +60,10 @@
 
         </div>
         <div class="comment-menu">
-            <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
-            <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+            {% if session.user_id and session.user_id == comment.user_id %}
+                <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
+                <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+            {% endif %}
         </div>
     </div>
 {% endfor %}
@@ -87,9 +91,11 @@
       <div class="column3" >
                     <a href="/answer/{{ answer.id }}/vote-up">Vote up</a>
                     <a href="/answer/{{ answer.id }}/vote-down">Vote down</a>
-                    <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
                     <a href="{{ url_for("add_comment_to_answer", answer_id=answer.id) }}"> Add comment</a>
-                    <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+                    {% if session.user_id and session.user_id == answer.user_id %}
+                        <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
+                        <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+                    {% endif %}
       </div>
     </div>
     <div><b>Comments:</b></div>
@@ -110,8 +116,10 @@
 
             </div>
             <div class="comment-menu">
-                <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
-                <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+                {% if session.user_id and session.user_id == comment.user_id %}
+                    <a href="{{ url_for("edit_comment", comment_id=comment.id) }}"> Edit</a>
+                    <a href="{{ url_for("delete_comment", comment_id=comment.id) }}" onclick="return confirm('Are you sure to delete this comment?');"> Delete</a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

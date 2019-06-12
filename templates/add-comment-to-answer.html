@@ -20,9 +20,11 @@
       <div class="column3, menu" >
                     <a href="/question/{{ answer.id }}/vote-up">Vote up</a>
                     <a href="/question/{{ answer.id }}/vote-down">Vote down</a>
-                    <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
                     <a href="{{ url_for("add_comment_to_answer", answer_id=answer.id) }}"> Add comment</a>
-                    <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+                    {% if session.user_id and session.user_id == answer.user_id %}
+                        <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
+                        <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+                    {% endif %}
       </div>
     </div>
 
