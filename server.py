@@ -197,9 +197,13 @@ def edit_comment(comment_id):
 @app.route('/comments/<comment_id>/delete')
 @util.login_required
 def delete_comment(comment_id):
-    question_id = data_manager.get_question_id_by_comment_id(comment_id)
-    data_manager.delete_comment_by_id(comment_id)
-    return redirect(url_for('route_question', question_id=question_id))
+    comment_user_id = data_manager.get_user_id_by_comment_id(comment_id)
+    if session.get('user_id') == comment_user_id:
+        question_id = data_manager.get_question_id_by_comment_id(comment_id)
+        data_manager.delete_comment_by_id(comment_id)
+        return redirect(url_for('route_question', question_id=question_id))
+    else:
+        return "You don't have the permission to delete this comment!"
 
 
 @app.route('/registration', methods=['POST', 'GET'])
