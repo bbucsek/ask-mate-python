@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import data_manager
+import util
 
 UPLOAD_FOLDER = './static/images'
 
@@ -175,6 +176,15 @@ def delete_comment(comment_id):
     data_manager.delete_comment_by_id(comment_id)
     return redirect(url_for('route_question', question_id=question_id))
 
+
+@app.route('/registration', methods=['POST', 'GET'])
+def registration():
+    if request.method == 'POST':
+        hashed_pw = util.hash_password(request.form['password'])
+        user_name = request.form['username']
+        data_manager.save_user(user_name, hashed_pw)
+        return redirect('/')
+    return render_template('registration.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+    <title>Registration</title>
+</head>
+<body>
+    <div class="card">
+        <p class="header">Registration</p>
+        <form id="hash" action="{{url_for('registration')}}" method="post">
+            <input class="input" type="text" name="username" placeholder="username" required>
+            <input class="input" type="password" name="password" placeholder="password" required>
+            <input class="button input" type="submit" value="Registrate!">
+        </form>
+    </div>
+</body>
+</html>

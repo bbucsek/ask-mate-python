@@ -360,3 +360,11 @@ def get_latest_five_questions(cursor):
                    """)
     questions = cursor.fetchall()
     return questions
+
+
+@connection.connection_handler
+def save_user(cursor, username, hashed_pw):
+    cursor.execute("""
+                    INSERT INTO users (username, password, registration_time, reputation)
+                    VALUES (%(username)s, %(hashed_pw)s, CURRENT_TIMESTAMP, 0)
+                    """, {'username': username, 'hashed_pw': hashed_pw})
