@@ -423,4 +423,4 @@ def get_user_id_by_comment_id(cursor, comment_id):
                     WHERE id = %(comment_id)s;
                     """, {'comment_id': comment_id})
     user_id = cursor.fetchone()
-    return user_id['user_id']
+    return user_id['user_id'] if user_id else None

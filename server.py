@@ -192,14 +192,18 @@ def add_comment_to_answer(answer_id):
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 @util.login_required
 def edit_comment(comment_id):
-    if request.method == 'POST':
-        new_message = request.form['message']
-        new_edited_count = int(request.form['edited_count']) + 1
-        data_manager.edit_comment(comment_id, new_message, new_edited_count)
-        question_id = data_manager.get_question_id_by_comment_id(comment_id)
-        return redirect(url_for('route_question', question_id=question_id))
-    comment = data_manager.get_comment_by_id(comment_id)
-    return render_template('edit-comment.html', comment=comment)
+    comment_user_id = data_manager.get_user_id_by_comment_id(comment_id)
+    if session.get('user_id') == comment_user_id:
+        if request.method == 'POST':
+            new_message = request.form['message']
+            new_edited_count = int(request.form['edited_count']) + 1
+            data_manager.edit_comment(comment_id, new_message, new_edited_count)
+            question_id = data_manager.get_question_id_by_comment_id(comment_id)
+            return redirect(url_for('route_question', question_id=question_id))
+        comment = data_manager.get_comment_by_id(comment_id)
+        return render_template('edit-comment.html', comment=comment)
+    else:
+        return "You don't have permission to edit this comment!"
 
 
 @app.route('/comments/<comment_id>/delete')
