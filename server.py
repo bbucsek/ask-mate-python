@@ -145,18 +145,22 @@ def vote_answer(answer_id, vote):
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 @util.login_required
 def edit_answer(answer_id):
-    if request.method == 'POST':
-        edited_answer = dict(request.form)
-        new_image = save_file(request.files['image_file'])
-        edited_answer['image'] = new_image
-        edited_answer['id'] = answer_id
-        data_manager.edit_answer(edited_answer)
+    answer_user_id = data_manager.get_user_id_by_answer_id(answer_id)
+    if session['user_id'] == answer_user_id:
+        if request.method == 'POST':
+            edited_answer = dict(request.form)
+            new_image = save_file(request.files['image_file'])
+            edited_answer['image'] = new_image
+            edited_answer['id'] = answer_id
+            data_manager.edit_answer(edited_answer)
 
-        question_id = data_manager.get_question_id_by_answer_id(answer_id)
-        return redirect(url_for('route_question', question_id=question_id))
-    question = data_manager.get_question_by_answer_id(answer_id)
-    answer_to_edit = data_manager.get_answer_by_answer_id(answer_id)
-    return render_template('edit.html', answer_to_edit=answer_to_edit, question=question)
+            question_id = data_manager.get_question_id_by_answer_id(answer_id)
+            return redirect(url_for('route_question', question_id=question_id))
+        question = data_manager.get_question_by_answer_id(answer_id)
+        answer_to_edit = data_manager.get_answer_by_answer_id(answer_id)
+        return render_template('edit.html', answer_to_edit=answer_to_edit, question=question)
+    else:
+        return "You don't have permission to edit this answer"
 
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
