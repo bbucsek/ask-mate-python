@@ -53,10 +53,11 @@ def route_question(question_id):
 @util.login_required
 def add_question():
     if request.method == 'POST':
+        user_id = data_manager.get_user_id_by_username(session['username'])
         new_question = dict(request.form)
         file_to_upload = request.files['image_file']
         new_question['image'] = save_file(file_to_upload)
-        data_manager.add_question(new_question)
+        data_manager.add_question(new_question, user_id)
         return redirect('/list')
     questions = data_manager.get_questions()
     return render_template('/add-question.html', questions=questions)
@@ -90,10 +91,11 @@ def delete_answer(answer_id):
 @util.login_required
 def new_answer(question_id):
     if request.method == 'POST':
+        user_id = data_manager.get_user_id_by_username(session['username'])
         file_to_upload = request.files['image_file']
         answer_to_add = dict(request.form)
         answer_to_add['image'] = save_file(file_to_upload)
-        data_manager.add_answer(answer_to_add)
+        data_manager.add_answer(answer_to_add, user_id)
         question_id = request.form['question_id']
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
@@ -149,7 +151,8 @@ def edit_answer(answer_id):
 @util.login_required
 def add_comment_to_question(question_id):
     if request.method == 'POST':
-        data_manager.add_comment_to_question(question_id, dict(request.form))
+        user_id = data_manager.get_user_id_by_username(session['username'])
+        data_manager.add_comment_to_question(question_id, dict(request.form), user_id)
         question_comments = data_manager.get_comments_from_question_id(question_id)
         return redirect(url_for('route_question', question_id=question_id, question_comments=question_comments))
     question = data_manager.get_question_by_id(question_id)
@@ -160,8 +163,9 @@ def add_comment_to_question(question_id):
 @util.login_required
 def add_comment_to_answer(answer_id):
     if request.method == 'POST':
+        user_id = data_manager.get_user_id_by_username(session['username'])
         comment_message = request.form['message']
-        data_manager.add_comment_to_answer(answer_id, comment_message)
+        data_manager.add_comment_to_answer(answer_id, comment_message, user_id)
         question_id = data_manager.get_question_id_by_answer_id(answer_id)
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_answer_id(answer_id)
