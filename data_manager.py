@@ -43,23 +43,25 @@ def get_answers_with_comments_by_question_id(question_id):
 
 
 @connection.connection_handler
-def add_question(cursor, user_question):
+def add_question(cursor, user_question, user_id):
     timestamp = datetime.now()
     user_question['submission_time'] = timestamp
+    user_question['user_id'] = user_id
     cursor.execute("""
-                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                    VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s );
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                    VALUES (%(submission_time)s, 0, 0, %(title)s, %(message)s, %(image)s, %(user_id)s );
     """, user_question)
 
 
 @connection.connection_handler
-def add_answer(cursor, user_answer):
+def add_answer(cursor, user_answer, user_id):
     timestamp = datetime.now()
     user_answer['submission_time'] = timestamp
+    user_answer['user_id'] = user_id
     user_answer['question_id'] = int(user_answer['question_id'])
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-                     VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s)""",
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+                     VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s, %(user_id)s)""",
                    user_answer)
 
 
@@ -229,12 +231,12 @@ def get_question_by_search(cursor, search):
 
 
 @connection.connection_handler
-def add_comment_to_answer(cursor, answer_id, message):
+def add_comment_to_answer(cursor, answer_id, message, user_id):
     cursor.execute("""
-                    INSERT INTO comment (answer_id, message, submission_time, edited_count)
-                    VALUES (%(answer_id)s, %(message)s, CURRENT_TIMESTAMP, 0);
+                    INSERT INTO comment (answer_id, message, submission_time, edited_count, user_id)
+                    VALUES (%(answer_id)s, %(message)s, CURRENT_TIMESTAMP, 0, %(user_id)s);
                     """,
-                    {'answer_id': answer_id, 'message': message})
+                    {'answer_id': answer_id, 'message': message, 'user_id': user_id})
 
 
 @connection.connection_handler
@@ -272,13 +274,14 @@ def handle_new_image(edited):
 
 
 @connection.connection_handler
-def add_comment_to_question(cursor, question_id, user_comment):
+def add_comment_to_question(cursor, question_id, user_comment, user_id):
     timestamp = datetime.now()
     user_comment['submission_time'] = timestamp
     user_comment['question_id'] = question_id
+    user_comment['user_id'] = user_id
     cursor.execute("""
-                    INSERT INTO comment (question_id, submission_time, message, edited_count)
-                    VALUES (%(question_id)s, %(submission_time)s, %(message)s, 0);
+                    INSERT INTO comment (question_id, submission_time, message, edited_count, user_id)
+                    VALUES (%(question_id)s, %(submission_time)s, %(message)s, 0, %(user_id)s);
     """, user_comment)
 
 
