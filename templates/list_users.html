@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions | AskMate</title>
+         <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+    <div class="content">
+        <div class="footer top">
+            <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
+            {% if session.username %}
+                <div id="username">Logged in as {{ session.username }}
+                    <a href="{{ url_for('logout') }}"> Log out</a>
+                </div>
+
+            {% else %}
+                <div id="username">
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('registration') }}">Registration</a>
+                </div>
+            {% endif %}
+        </div>
+
+
+        <div class="header">
+            <h2>Users</h2>
+        </div>
+        <div class="user_row">
+            <table>
+                <tr>
+                    {% for header_text in ('Username', 'Id', 'Registration date', 'Reputation') %}
+                        <th>{{ header_text }}</th>
+                    {% endfor %}
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.registration_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ user.reputation }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="row">
+            <div class="empty"></div>
+        </div>
+        <div class="footer"><a href="/" style="font-size: 30px; color: white;"><i class="fas fa-home"></i></a></div>
+    </div>
+</body>
+</html>
