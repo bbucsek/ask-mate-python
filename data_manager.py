@@ -444,11 +444,19 @@ def accept_answer(cursor, answer_id):
     """, {'answer_id': answer_id})
 
 
-
-
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
                     SELECT * FROM users;
                     """)
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_view(cursor, question_id):
+    cursor.execute("""
+                UPDATE question
+                SET view_number =  view_number + 1
+                WHERE id = %(question_id)s;
+                    """,
+               {'question_id': question_id})
