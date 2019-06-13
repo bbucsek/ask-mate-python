@@ -424,3 +424,11 @@ def get_user_id_by_comment_id(cursor, comment_id):
                     """, {'comment_id': comment_id})
     user_id = cursor.fetchone()
     return user_id['user_id'] if user_id else None
+
+
+@connection.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+                    SELECT * FROM users;
+                    """)
+    return cursor.fetchall()

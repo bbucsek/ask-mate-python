@@ -218,6 +218,12 @@ def delete_comment(comment_id):
         return "You don't have the permission to delete this comment!"
 
 
+@app.route('/users')
+def list_users():
+    users = data_manager.get_users()
+    return render_template('list_users.html', users=users)
+
+
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     if request.method == 'POST':
