@@ -131,12 +131,22 @@ def edit_question(question_id):
 
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
+    user_id = data_manager.get_question_user_id_by_question_id(question_id)
+    if vote == 'vote-up':
+        data_manager.update_user_reputation(user_id, 5)
+    else:
+        data_manager.update_user_reputation(user_id, -2)
     data_manager.vote_question(question_id, vote)
     return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/<vote>')
 def vote_answer(answer_id, vote):
+    user_id = data_manager.get_user_id_by_answer_id(answer_id)
+    if vote == 'vote-up':
+        data_manager.update_user_reputation(user_id, 10)
+    else:
+        data_manager.update_user_reputation(user_id, -2)
     data_manager.vote_answer(answer_id, vote)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     return redirect(url_for('route_question', question_id=question_id))

@@ -424,3 +424,13 @@ def get_user_id_by_comment_id(cursor, comment_id):
                     """, {'comment_id': comment_id})
     user_id = cursor.fetchone()
     return user_id['user_id'] if user_id else None
+
+
+@connection.connection_handler
+def update_user_reputation(cursor, user_id, value):
+    cursor.execute("""
+                    update users
+                    set reputation = reputation + %(value)s
+                    WHERE id = %(user_id)s;
+    """, {'user_id': user_id,
+          'value': value})
