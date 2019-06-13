@@ -250,6 +250,12 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('route_list'))
 
+@app.route('/answer/<answer_id>/accept')
+def accept_answer(answer_id):
+    data_manager.accept_answer(answer_id)
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    return redirect(url_for('route_question', question_id=question_id))
+
 
 if __name__ == '__main__':
     app.run(

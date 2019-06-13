@@ -424,3 +424,13 @@ def get_user_id_by_comment_id(cursor, comment_id):
                     """, {'comment_id': comment_id})
     user_id = cursor.fetchone()
     return user_id['user_id'] if user_id else None
+
+@connection.connection_handler
+def accept_answer(cursor, answer_id):
+    cursor.execute("""
+                UPDATE answer
+                SET accepted = true
+                WHERE id = %(answer_id)s;
+    """, {'answer_id': answer_id})
+
+

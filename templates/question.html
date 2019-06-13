@@ -74,6 +74,9 @@
     <div class="row">
         <div class="column1" id="question">
             <div class="details">
+                {% if answer.accepted %}
+                    <span><b>✅ Accepted</span>
+                {% endif %}
                 <span><b>ID: </b>{{ answer.id }}</span>
                 <span><b>Submission Time: </b>{{ answer.submission_time.strftime('%Y-%m-%d %H:%M') }}</span>
                 <span><b>Vote:</b>{{ answer.vote_number }}</span>
@@ -95,6 +98,7 @@
                     {% if session.user_id and session.user_id == answer.user_id %}
                         <a href="{{ url_for("edit_answer", answer_id=answer.id) }}"> Edit answer</a>
                         <a href="{{ url_for("delete_answer", answer_id=answer.id) }}"> Delete answer</a>
+                        <a href="{{ url_for("accept_answer", answer_id=answer.id) }}"> Accept answer</a>
                     {% endif %}
       </div>
     </div>
