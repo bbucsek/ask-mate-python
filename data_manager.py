@@ -434,3 +434,13 @@ def update_user_reputation(cursor, user_id, value):
                     WHERE id = %(user_id)s;
     """, {'user_id': user_id,
           'value': value})
+
+@connection.connection_handler
+def accept_answer(cursor, answer_id):
+    cursor.execute("""
+                UPDATE answer
+                SET accepted = true
+                WHERE id = %(answer_id)s;
+    """, {'answer_id': answer_id})
+
+
