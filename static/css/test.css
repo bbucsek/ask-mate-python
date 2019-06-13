@@ -236,7 +236,7 @@ tr:nth-child(even) {
     width: 50%
 }
 
-#user_table:{
+#user_table {
     float: none;
     margin: auto;
 }
