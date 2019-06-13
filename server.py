@@ -131,14 +131,16 @@ def edit_question(question_id):
 
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
-    util.update_reputation('question', question_id, vote)
+    rep_num = 5 if vote == 'vote-up' else -2
+    util.update_reputation('question', question_id, rep_num)
     data_manager.vote_question(question_id, vote)
     return redirect(url_for('route_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/<vote>')
 def vote_answer(answer_id, vote):
-    util.update_reputation('answer', answer_id, vote)
+    rep_num = 10 if vote == 'vote-up' else -2
+    util.update_reputation('answer', answer_id, rep_num)
     data_manager.vote_answer(answer_id, vote)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     return redirect(url_for('route_question', question_id=question_id))
@@ -254,6 +256,8 @@ def logout():
 
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
+    rep_num = 15
+    util.update_reputation('answer', answer_id, rep_num)
     data_manager.accept_answer(answer_id)
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     return redirect(url_for('route_question', question_id=question_id))
