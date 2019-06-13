@@ -8,17 +8,22 @@
 </head>
 <body>
     <div class="content">
-    <div class="footer top">
+ <div class="footer top">
+        <div class="header_col1">
         <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
+        </div>
         {% if session.username %}
-            <div id="username">Logged in as {{ session.username }}
+            <div class="header_col2" id="username">
+            <h4>Logged in as {{ session.username }}</h4>
+            </div>
+            <div class="header_col3">
                 <a href="{{ url_for('logout') }}"> Log out</a>
             </div>
-
         {% else %}
-            <div id="username">
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('registration') }}">Registration</a>
+            <div class="header_col2"></div>
+            <div class="header_col3">
+                <div class="login"><a href="{{ url_for('login') }}">Login</a></div>
+                <div class="login"><a href="{{ url_for('registration') }}">Registration</a></div>
             </div>
         {% endif %}
     </div>
@@ -26,6 +31,7 @@
             <h2>Questions</h2>
         </div>
     <div class="row">
+    <div class="table_col">
         <table>
             <tr>
                 {% for field, header_text in [('id', 'Id'), ('submission_time', 'Submission time'), ('title', 'Title')] %}
@@ -50,6 +56,7 @@
                 </tr>
             {% endfor %}
         </table>
+        </div>
         <div class="comment-menu">
             <form action="{{ url_for('route_list') }}", method = post>
                 <input type="text" name="search" value = {{search if search }}>

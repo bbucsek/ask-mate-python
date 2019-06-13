@@ -78,7 +78,7 @@ body {
 }
 
 
-.column3, .top a {
+.column3 a, .top a {
   display: block;
   color: #000;
   padding: 8px 16px;
@@ -89,12 +89,12 @@ body {
   text-align: center;
 }
 
-.column3, .top a.active {
+.column3 a.active, .top a.active {
   background-color: darkslateblue;
   color: white;
 }
 
-.column3, .top a:hover:not(.active) {
+.column3 a:hover:not(.active), .top a:hover:not(.active) {
   background-color: #555;
   color: white;
 
@@ -134,11 +134,15 @@ body {
   height: 100px; /* Should be removed. Only for demonstration */
 
 }
+.table_col{
+    float:left;
+    width: 80%;
 
+}
 .comment-menu {
   float: left;
   width: 20%;
-  padding: 10px;
+  padding: 20px;
   height: 100px; /* Should be removed. Only for demonstration */
 }
 
@@ -166,10 +170,10 @@ body {
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 75%;
-  float: left;
-  margin-left: 5px;
+  width: 90%;
+    margin: auto;
 }
+
 th {
   background-color: #485F6E;
   color: white;
@@ -190,15 +194,10 @@ tr:nth-child(even) {
 }
 
 #username {
-  align-items: flex-end;
   color: white;
-  width: 130px;
 
 }
 
-#username a {
-  display: inline;
-}
 
 .top {
   display: flex;
@@ -209,4 +208,64 @@ tr:nth-child(even) {
 }
 
 .user_row {
+}
+
+.header_col1{
+    float: left;
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}
+
+.header_col2 {
+     float: left;
+    width: 60%;
+    padding: 20px;
+    text-align: center;
+}
+
+.header_col3{
+    float: left;
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}
+
+.login {
+   float: left;
+    width: 50%
+}
+
+#user_table:{
+    float: none;
+    margin: auto;
+}
+
+.login a{
+    font-size: small;
+    text-align: center;
+}
+
+.card {
+    background-image: linear-gradient(90deg, #c8c2c5, #979f97);
+    width: fit-content;
+    margin: auto;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .9);
+    box-sizing: border-box;
+}
+
+.label div {
+    float: left;
+    width: 25%;
+    font-size: small;
+}
+
+.label {
+    width: 78%;
+    float: left;
+    margin-left: 2%;
+    height: 30px;
+  background-image: linear-gradient(#eeeeee, #c3bdc0)
 }

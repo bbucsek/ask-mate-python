@@ -8,27 +8,30 @@
 </head>
 <body>
     <div class="content">
-        <div class="footer top">
-            <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
-            {% if session.username %}
-                <div id="username">Logged in as {{ session.username }}
-                    <a href="{{ url_for('logout') }}"> Log out</a>
-                </div>
-
-            {% else %}
-                <div id="username">
-                    <a href="{{ url_for('login') }}">Login</a>
-                    <a href="{{ url_for('registration') }}">Registration</a>
-                </div>
-            {% endif %}
+<div class="footer top">
+        <div class="header_col1">
+        <h2 style="text-align: left"><span style="color: orange;">FL</span><span style="color: white">ask Mate</span></h2>
         </div>
-
-
+        {% if session.username %}
+            <div class="header_col2" id="username">
+            <h4>Logged in as {{ session.username }}</h4>
+            </div>
+            <div class="header_col3">
+                <a href="{{ url_for('logout') }}"> Log out</a>
+            </div>
+        {% else %}
+            <div class="header_col2"></div>
+            <div class="header_col3">
+                <div class="login"><a href="{{ url_for('login') }}">Login</a></div>
+                <div class="login"><a href="{{ url_for('registration') }}">Registration</a></div>
+            </div>
+        {% endif %}
+    </div>
         <div class="header">
             <h2>Users</h2>
         </div>
         <div class="user_row">
-            <table>
+            <table id="user_table">
                 <tr>
                     {% for header_text in ('Username', 'Id', 'Registration date', 'Reputation') %}
                         <th>{{ header_text }}</th>
