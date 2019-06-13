@@ -42,3 +42,18 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+
+def update_reputation(table_name, id, vote):
+    if table_name == 'question':
+        user_id = data_manager.get_question_user_id_by_question_id(id)
+        if vote == 'vote-up':
+            data_manager.update_user_reputation(user_id, 5)
+        else:
+            data_manager.update_user_reputation(user_id, -2)
+    else:
+        user_id = data_manager.get_user_id_by_answer_id(id)
+        if vote == 'vote-up':
+            data_manager.update_user_reputation(user_id, 10)
+        else:
+            data_manager.update_user_reputation(user_id, -2)
