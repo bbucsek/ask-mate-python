@@ -1,9 +1,11 @@
 from datetime import datetime
-import data_manager
-from time import time
-import bcrypt
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for, flash, session, escape
+from time import time
+
+import bcrypt
+from flask import redirect, url_for, session
+
+import data_manager
 
 
 def str_timestamp_to_datetime(timestamp_text):

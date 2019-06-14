@@ -1,10 +1,8 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session, escape
+from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import data_manager
 import util
-from functools import wraps
-
 
 UPLOAD_FOLDER = './static/images'
 
@@ -61,7 +59,7 @@ def add_question():
         data_manager.add_question(new_question, user_id)
         return redirect('/list')
     questions = data_manager.get_questions()
-    return render_template('/add-question.html', questions=questions)
+    return render_template('add-question.html', questions=questions)
 
 
 def save_file(file_to_upload):
@@ -109,25 +107,24 @@ def new_answer(question_id):
         return redirect(url_for('route_question', question_id=question_id))
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
-    return render_template('/new-answer.html', question=question, answers=answers)
+    return render_template('new-answer.html', question=question, answers=answers)
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 @util.login_required
 def edit_question(question_id):
     question_user_id = data_manager.get_question_user_id_by_question_id(question_id)
-    if session['user_id'] == question_user_id:
-        if request.method == 'POST':
-            edited_question = dict(request.form)
-            new_image = save_file(request.files['image_file'])
-            edited_question['image'] = new_image
-            edited_question['id'] = question_id
-            data_manager.edit_question(edited_question)
-            return redirect(url_for('route_question', question_id=question_id))
-        question = data_manager.get_question_by_id(question_id)
-        return render_template('/edit.html', question=question)
-    else:
+    if session['user_id'] != question_user_id:
         return "You don't have the permission to edit this question!"
+    if request.method == 'POST':
+        edited_question = dict(request.form)
+        new_image = save_file(request.files['image_file'])
+        edited_question['image'] = new_image
+        edited_question['id'] = question_id
+        data_manager.edit_question(edited_question)
+        return redirect(url_for('route_question', question_id=question_id))
+    question = data_manager.get_question_by_id(question_id)
+    return render_template('edit.html', question=question)
 
 
 @app.route('/question/<question_id>/<vote>')
@@ -236,7 +233,11 @@ def registration():
         user_name = request.form['username']
         error = data_manager.save_user(user_name, hashed_pw)
         if error:
-            return render_template('reg_login.html', error=error, title='Registration', server_function='registration', submit_text='Register!')
+            return render_template('reg_login.html',
+                                   error=error,
+                                   title='Registration',
+                                   server_function='registration',
+                                   submit_text='Register!')
         else:
             return redirect('/')
     return render_template('reg_login.html', title='Registration', server_function='registration', submit_text='Register!')
@@ -251,7 +252,11 @@ def login():
             session['user_id'] = data_manager.get_user_id_by_username(session['username'])
             return redirect(url_for('route_list'))
         else:
-            return render_template('reg_login.html', error='Wrong username/password', title='Login', server_function='login', submit_text='Login!')
+            return render_template('reg_login.html',
+                                   error='Wrong username/password',
+                                   title='Login',
+                                   server_function='login',
+                                   submit_text='Login!')
     return render_template('reg_login.html', title='Login', server_function='login', submit_text='Login!')
 
 
@@ -260,6 +265,7 @@ def logout():
     session.pop('username', None)
     session.pop('user_id', None)
     return redirect(url_for('route_list'))
+
 
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
